@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Android Front-End MCQ Trainer & Midterm Study Hub</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top App Navigation -->
+  <header>
+    <div class="header-container">
+      <div class="brand">
+        <div class="brand-icon">🤖</div>
+        <div class="brand-text">
+          <h1>Android Front-End Trainer</h1>
+          <p>USTH MAD • Lectures 1 to 5 Course Material</p>
+        </div>
+      </div>
+
+      <nav class="nav-tabs">
+        <button id="nav-practice-btn" class="tab-btn active" data-target="practice-view">
+          <span>📝</span> Practice Quiz
+        </button>
+        <button id="nav-mock-btn" class="tab-btn" data-target="mock-view">
+          <span>⏱️</span> Mock Exam
+        </button>
+        <button id="nav-flashcards-btn" class="tab-btn" data-target="flashcards-view">
+          <span>🎴</span> Flashcards
+        </button>
+        <button id="nav-calc-btn" class="tab-btn" data-target="calc-view">
+          <span>📐</span> Weight Math
+        </button>
+        <button id="nav-notes-btn" class="tab-btn" data-target="notes-view">
+          <span>📖</span> Quick Notes
+        </button>
+      </nav>
+
+      <div class="header-controls">
+        <button id="sound-toggle-btn" class="icon-btn" title="Toggle Sound Feedback">
+          🔔
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Views Container -->
+  <main>
+
+    <!-- VIEW 1: Practice Quiz -->
+    <section id="practice-view" class="view-section active">
+      <div class="quiz-top-bar">
+        <div class="filter-group">
+          <label for="lecture-filter">Filter by Lecture:</label>
+          <select id="lecture-filter" class="dropdown">
+            <option value="all">All 70 Questions (Lec 1 - 5)</option>
+            <option value="1">Lecture 1: Course & Assessment</option>
+            <option value="2">Lecture 2: Android Intro & History</option>
+            <option value="3">Lecture 3: Architecture & Fundamentals</option>
+            <option value="4">Lecture 4: Resources & Layouts</option>
+            <option value="5">Lecture 5: Background Tasks & Services</option>
+            <option value="bookmarked">⭐ Bookmarked Only</option>
+          </select>
+          <button id="shuffle-btn" class="action-btn secondary" style="padding: 0.45rem 0.9rem; font-size: 0.8rem;">
+            🔀 Shuffle
+          </button>
+        </div>
+
+        <div class="quiz-stats">
+          <div class="stat-item">
+            <span class="stat-label">Progress</span>
+            <span id="quiz-progress-text" class="stat-value">1 / 70</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Score</span>
+            <span id="quiz-score-text" class="stat-value">0 / 0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Accuracy</span>
+            <span id="quiz-accuracy-text" class="stat-value">-%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="progress-container">
+        <div id="quiz-progress-bar" class="progress-bar"></div>
+      </div>
+
+      <div class="question-card" id="practice-question-card">
+        <div class="question-header">
+          <span id="q-lecture-badge" class="lecture-badge">Lecture 1</span>
+          <button id="q-bookmark-btn" class="bookmark-btn" title="Bookmark for later review">★</button>
+        </div>
+
+        <h2 id="q-text" class="question-text">Loading question...</h2>
+
+        <div id="options-container" class="options-grid">
+          <!-- Dynamically populated options -->
+        </div>
+
+        <div id="q-explanation-box" class="explanation-card">
+          <div class="explanation-title">💡 Lecture Slide Explanation</div>
+          <p id="q-explanation-text" class="explanation-text"></p>
+          <div id="q-slide-ref" class="explanation-ref"></div>
+        </div>
+
+        <div class="quiz-footer">
+          <button id="q-prev-btn" class="action-btn secondary">← Previous</button>
+          <button id="q-next-btn" class="action-btn">Next Question →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 2: Mock Exam -->
+    <section id="mock-view" class="view-section">
+      <div id="mock-setup-card" class="question-card" style="text-align: center; padding: 3rem 2rem;">
+        <h2 style="font-size: 1.8rem; margin-bottom: 0.75rem;">⏱️ Timed Mock Midterm Exam</h2>
+        <p style="color: var(--text-muted); max-width: 550px; margin: 0 auto 2rem auto; line-height: 1.6;">
+          Simulate real exam conditions. 20 randomized multiple-choice questions covering all 5 course lectures. Answers and detailed scoring will be revealed upon submission.
+        </p>
+        <div style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem;">
+          <div class="mock-chip">
+            <div style="font-size: 1.4rem; font-weight: bold; color: var(--accent-primary);">20</div>
+            <div style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; font-weight: 600;">Questions</div>
+          </div>
+          <div class="mock-chip">
+            <div style="font-size: 1.4rem; font-weight: bold; color: var(--warning);">20:00</div>
+            <div style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; font-weight: 600;">Time Limit</div>
+          </div>
+        </div>
+        <button id="start-mock-btn" class="action-btn" style="margin: 0 auto; font-size: 1.05rem; padding: 0.9rem 2.2rem;">
+          🚀 Start Timed Exam
+        </button>
+      </div>
+
+      <div id="mock-active-card" class="question-card" style="display: none;">
+        <div class="quiz-top-bar" style="margin: -2rem -2rem 1.5rem -2rem; border-radius: 0; border-top: none; border-left: none; border-right: none;">
+          <div>
+            <span style="font-size: 0.8rem; color: var(--text-dim); text-transform: uppercase;">Exam in progress</span>
+            <div id="mock-question-counter" style="font-weight: 700;">Question 1 of 20</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div id="mock-timer" style="font-family: monospace; font-size: 1.3rem; font-weight: bold; color: var(--warning);">20:00</div>
+            <button id="submit-mock-btn" class="action-btn" style="background: #10b981; padding: 0.5rem 1rem;">
+              Submit Exam
+            </button>
+          </div>
+        </div>
+
+        <h2 id="mock-q-text" class="question-text"></h2>
+        <div id="mock-options-container" class="options-grid"></div>
+
+        <div class="quiz-footer">
+          <button id="mock-prev-btn" class="action-btn secondary">← Back</button>
+          <button id="mock-next-btn" class="action-btn">Next →</button>
+        </div>
+      </div>
+
+      <div id="mock-results-card" class="question-card results-card" style="display: none;">
+        <div class="score-circle">
+          <div id="mock-score-percent" class="score-number">85%</div>
+          <div class="score-label">Final Score</div>
+        </div>
+        <h2 id="mock-result-status" style="font-size: 1.6rem; margin-bottom: 0.5rem;">Well Done!</h2>
+        <p id="mock-result-summary" style="color: var(--text-muted); margin-bottom: 2rem;">You answered 17 out of 20 questions correctly.</p>
+
+        <div id="mock-review-list" style="text-align: left; margin-bottom: 2rem; display: flex; flex-direction: column; gap: 1rem;">
+          <!-- Review breakdown of questions -->
+        </div>
+
+        <button id="retake-mock-btn" class="action-btn" style="margin: 0 auto;">
+          🔄 Take Another Mock Exam
+        </button>
+      </div>
+    </section>
+
+    <!-- VIEW 3: Flashcards -->
+    <section id="flashcards-view" class="view-section">
+      <div class="flashcards-container">
+        <div class="flashcard" id="flashcard-element">
+          <div class="flashcard-inner">
+            <div class="flashcard-front">
+              <span id="fc-category" class="card-category">CATEGORY</span>
+              <p id="fc-prompt" class="card-prompt">Front text here</p>
+              <span class="card-hint">Tap / Click to flip ↻</span>
+            </div>
+            <div class="flashcard-back">
+              <span class="card-category" style="color: #67e8f9;">KEY ANSWER</span>
+              <p id="fc-answer" class="card-answer">Back text here</p>
+              <span class="card-hint">Tap / Click to flip back ↻</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flashcard-controls">
+          <button id="fc-prev-btn" class="action-btn secondary">← Prev</button>
+          <span id="fc-counter" style="color: var(--text-muted); font-size: 0.9rem; font-weight: 600;">1 / 22</span>
+          <button id="fc-next-btn" class="action-btn">Next →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 4: Interactive Weight Calculator -->
+    <section id="calc-view" class="view-section">
+      <div class="calc-card">
+        <h2 class="calc-title">📐 LinearLayout Weight Stretching Calculator</h2>
+        <p class="calc-desc">
+          Test and understand the exact weight calculation formula from Lecture 4 (Slides 21–23). 
+          Enter your parent width, fixed widths, and weight values to instantly see how Android distributes remaining space!
+        </p>
+
+        <div class="calc-formula-box">
+          &omega;<sub>i</sub> = base_width<sub>i</sub> + [ &gamma;<sub>i</sub> / &sum; &gamma;<sub>j</sub> ] &times; [ &omega;<sub>parent</sub> - &sum; &omega;<sub>fixed</sub> ]
+        </div>
+
+        <div class="calc-grid">
+          <div class="calc-field">
+            <label for="calc-parent-width">Parent Width (px):</label>
+            <input type="number" id="calc-parent-width" value="720" min="100" max="2000">
+          </div>
+          <div class="calc-field">
+            <label for="calc-child1-weight">Child 1 (Button 1) Weight:</label>
+            <input type="number" id="calc-child1-weight" value="1" min="0" step="0.5">
+          </div>
+          <div class="calc-field">
+            <label for="calc-child2-fixed">Child 2 (Button 2) Fixed Width (px):</label>
+            <input type="number" id="calc-child2-fixed" value="100" min="0">
+          </div>
+          <div class="calc-field">
+            <label for="calc-child3-weight">Child 3 (Button 3) Weight:</label>
+            <input type="number" id="calc-child3-weight" value="1" min="0" step="0.5">
+          </div>
+        </div>
+
+        <div class="calc-preview-container">
+          <h3 style="font-size: 0.95rem; margin-bottom: 0.75rem; color: var(--text-main);">Visual Layout Representation:</h3>
+          <div class="calc-preview-bar">
+            <div id="preview-chunk-1" class="preview-chunk chunk-1" style="width: 43.05%;">Btn 1 (310px)</div>
+            <div id="preview-chunk-2" class="preview-chunk chunk-2" style="width: 13.88%;">Btn 2 (100px)</div>
+            <div id="preview-chunk-3" class="preview-chunk chunk-3" style="width: 43.05%;">Btn 3 (310px)</div>
+          </div>
+
+          <div id="calc-breakdown-text" class="calc-math-breakdown">
+            • Fixed space subtracted: 720px - 100px = 620px remaining.<br>
+            • Sum of weights: 1 + 1 = 2.<br>
+            • Button 1 width = (1 / 2) &times; 620px = <strong>310px</strong>.<br>
+            • Button 2 width = <strong>100px</strong> (fixed, no weight).<br>
+            • Button 3 width = (1 / 2) &times; 620px = <strong>310px</strong>.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 5: Quick Notes -->
+    <section id="notes-view" class="view-section">
+      <div style="margin-bottom: 1.5rem;">
+        <h2 style="font-size: 1.4rem; margin-bottom: 0.4rem;">📖 High-Yield Revision Accordion</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Click any section below to expand key points, exam definitions, and slide traps.</p>
+      </div>
+
+      <div class="accordion-item open">
+        <div class="accordion-header">
+          <span>🏛️ Android Architecture Stack & Compilation (Lec 3)</span>
+          <span>▼</span>
+        </div>
+        <div class="accordion-body">
+          <p><strong>4 Layers from Bottom to Top:</strong></p>
+          <ol style="margin-left: 1.5rem; margin-bottom: 1rem;">
+            <li><strong>Linux Kernel (C):</strong> Hardware drivers, process isolation, power management.</li>
+            <li><strong>Libraries (C/C++) & Android Runtime:</strong> SQLite, WebKit, FreeType, Media Framework + Dalvik/ART virtual machine.</li>
+            <li><strong>Application Framework (Java):</strong> ActivityManager, WindowManager, NotificationManager, LocationManager.</li>
+            <li><strong>Applications (Java):</strong> Home, Contacts, Phone, Browser, USTH Weather.</li>
+          </ol>
+          <p><strong>Compilation Toolchain:</strong> <code>.java</code> &rarr; <em>javac</em> &rarr; <code>.class</code> &rarr; <em>dx tool</em> &rarr; <code>.dex</code> &rarr; packaged into <code>.apk</code>.</p>
+          <p><strong>Dalvik vs ART:</strong> Dalvik uses <strong>JIT</strong> (Just-In-Time) compilation. ART uses <strong>AOT</strong> (Ahead-Of-Time) compilation during installation.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header">
+          <span>🔄 Activity Lifecycle & Screen Rotation (Lec 3)</span>
+          <span>▼</span>
+        </div>
+        <div class="accordion-body">
+          <p><strong>Lifecycle Methods:</strong></p>
+          <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+            <li><code>onCreate()</code>: Initialize activity, call <code>setContentView()</code>, <code>findViewById()</code>.</li>
+            <li><code>onStart()</code>: Activity becoming visible.</li>
+            <li><code>onResume()</code>: In foreground, acquire exclusive resources (e.g. Camera).</li>
+            <li><code>onPause()</code>: Losing focus, release camera (<code>mCamera.release()</code>), save data. *Always call <code>super.onPause()</code> first!*</li>
+            <li><code>onStop()</code>: No longer visible.</li>
+            <li><code>onDestroy()</code>: Finishing (after calling <code>finish()</code>) or killed by OS.</li>
+          </ul>
+          <p><strong>Device Rotation:</strong> Destroys and recreates the instance: <code>onSaveInstanceState()</code> &rarr; <code>onDestroy()</code> &rarr; <code>onCreate()</code> &rarr; <code>onRestoreInstanceState()</code>.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header">
+          <span>🧩 Fragments & ViewPager (Lec 3 & 4)</span>
+          <span>▼</span>
+        </div>
+        <div class="accordion-body">
+          <p><strong>Fragment History:</strong> Officially native in <strong>Android 3.0 Honeycomb (API 11)</strong>; supported down to <strong>Android 1.6 Donut (API 4)</strong> via Support Library.</p>
+          <p><strong>ViewPager:</strong> Horizontal swiping tab container. Uses <code>FragmentPagerAdapter</code>. Connect to header using <code>tabLayout.setupWithViewPager(pager)</code>.</p>
+          <p><strong>Off-screen Limit:</strong> <code>pager.setOffscreenPageLimit(3)</code> keeps 3 pages alive on each side to prevent destroying/recreating.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header">
+          <span>🎨 9-Patch Drawables & Raw Data (Lec 4)</span>
+          <span>▼</span>
+        </div>
+        <div class="accordion-body">
+          <p><strong>9-Patch (*.9.png) Rules:</strong></p>
+          <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+            <li><strong>Top & Left Borders:</strong> Black pixels define the <strong>STRETCHABLE area</strong>.</li>
+            <li><strong>Bottom & Right Borders:</strong> Black pixels define the <strong>PADDING / CONTENT area</strong>.</li>
+          </ul>
+          <p><strong>res/raw/ vs assets/:</strong></p>
+          <ul style="margin-left: 1.5rem;">
+            <li><code>res/raw/</code>: Android resource, generates <code>R.raw.id</code>, opened with <code>getResources().openRawResource(R.raw.xxx)</code>.</li>
+            <li><code>assets/</code>: NOT a resource, no R ID, supports subdirectories, opened with <code>getAssets().open("filename")</code>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header">
+          <span>⚡ Threading Model & AsyncTask (Lec 5)</span>
+          <span>▼</span>
+        </div>
+        <div class="accordion-body">
+          <p><strong>Golden Rules:</strong></p>
+          <ol style="margin-left: 1.5rem; margin-bottom: 1rem;">
+            <li>NEVER block the Main Thread (network, long disk I/O causes ANR).</li>
+            <li>NEVER touch UI Views from worker threads &rarr; crashes with <code>CalledFromWrongThreadException</code>.</li>
+          </ol>
+          <p><strong>AsyncTask&lt;Params, Progress, Result&gt;:</strong></p>
+          <ul style="margin-left: 1.5rem;">
+            <li><code>onPreExecute()</code>: Main Thread. Setup / show dialog.</li>
+            <li><code>doInBackground()</code>: <strong>WORKER Thread</strong>. Required. Heavy task. Returns Result. Cannot touch UI!</li>
+            <li><code>onProgressUpdate()</code>: Main Thread. Receives <code>publishProgress()</code>.</li>
+            <li><code>onPostExecute(Result)</code>: Main Thread. Updates UI with result.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Load Quiz Data & Application Logic -->
+  <script src="quiz-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

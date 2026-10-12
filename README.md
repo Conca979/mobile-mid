@@ -20,6 +20,14 @@ Open [`index.html`](file:///c:/Users/admin/projects/personal/mobile-mid/index.ht
 ### 3. Full MCQ Question Bank (Offline Reading)
 - [`MCQ_QUESTION_BANK.md`](file:///c:/Users/admin/projects/personal/mobile-mid/MCQ_QUESTION_BANK.md): 70 multiple-choice questions with answer keys, in-depth explanations, and lecture slide citations.
 
+### 4. Line-by-Line Lecture Slide Explanations
+Exhaustive, slide-by-slide and line-by-line breakdown for every lecture deck:
+- 📖 [**Lecture 1 Explanation**](file:///c:/Users/admin/projects/personal/mobile-mid/explanations/LECTURE_1_EXPLANATION.md): Course format, assessment breakdown, presentation structure, UI overdraw requirement, and references.
+- 📖 [**Lecture 2 Explanation**](file:///c:/Users/admin/projects/personal/mobile-mid/explanations/LECTURE_2_EXPLANATION.md): What is Android, hardware specs, reasons against iOS in Bachelor, full dessert version history.
+- 📖 [**Lecture 3 Explanation**](file:///c:/Users/admin/projects/personal/mobile-mid/explanations/LECTURE_3_EXPLANATION.md): 4-layer architecture, compilation chain, Dalvik vs ART, Context, Application, Manifest, Activity lifecycle, Screen rotation, Fragments, Views.
+- 📖 [**Lecture 4 Explanation**](file:///c:/Users/admin/projects/personal/mobile-mid/explanations/LECTURE_4_EXPLANATION.md): Resources & R class, FrameLayout, LinearLayout weight math formula, ViewPager, Values & i18n, 9-patch rules, res/raw vs assets, App Bar & ToolBar.
+- 📖 [**Lecture 5 Explanation**](file:///c:/Users/admin/projects/personal/mobile-mid/explanations/LECTURE_5_EXPLANATION.md): Threading model, UI single-thread rules, CalledFromWrongThreadException, Handler & Message, AsyncTask generics and 4 execution methods.
+
 ---
 
 ## 🚀 How to Launch the Web App

@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)https://snowwminhduc1212.github.io/Mid_Mobile/ -->
+<html lang="en" data-qb-installed="true"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>USTH Mobile Application Development - Midterm Quiz Simulator</title>
+  <style>
+    :root {
+      --bg-page: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-subtle: #f1f5f9;
+      --border-color: #e2e8f0;
+      --border-dark: #cbd5e1;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --accent: #0f172a;
+      --accent-hover: #1e293b;
+      --brand: #1e40af;
+      --success: #16a34a;
+      --success-bg: #f0fdf4;
+      --success-border: #86efac;
+      --error: #dc2626;
+      --error-bg: #fef2f2;
+      --error-border: #fca5a5;
+      --radius-sm: 4px;
+      --radius: 6px;
+      --radius-lg: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Header */
+    header.site-header {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.01em;
+    }
+
+    .brand-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .header-indicators {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .indicator-pill {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      padding: 6px 12px;
+      border-radius: var(--radius);
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    /* Layout */
+    .app-container {
+      max-width: 1200px;
+      margin: 24px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    /* Controls Bar */
+    .controls-bar {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 12px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .select-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .field-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    select.dropdown {
+      padding: 6px 12px;
+      border: 1px solid var(--border-dark);
+      border-radius: var(--radius);
+      font-size: 0.85rem;
+      background: var(--bg-surface);
+      color: var(--text-main);
+      font-weight: 500;
+      outline: none;
+      cursor: pointer;
+    }
+
+    select.dropdown:focus {
+      border-color: var(--accent);
+    }
+
+    .button-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    button.btn {
+      padding: 6px 14px;
+      border-radius: var(--radius);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: background-color 0.15s, border-color 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    button.btn-default {
+      background: var(--bg-surface);
+      border-color: var(--border-dark);
+      color: var(--text-main);
+    }
+
+    button.btn-default:hover {
+      background: var(--bg-subtle);
+    }
+
+    button.btn-dark {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    button.btn-dark:hover {
+      background: var(--accent-hover);
+    }
+
+    button.btn-danger {
+      background: var(--bg-surface);
+      border-color: var(--error-border);
+      color: var(--error);
+    }
+
+    button.btn-danger:hover {
+      background: var(--error-bg);
+    }
+
+    /* Question Card */
+    .question-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+    }
+
+    .question-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .badge-group {
+      display: flex;
+      gap: 6px;
+    }
+
+    .tag-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+    }
+
+    .tag-badge.lecture {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+
+    .tag-badge.topic {
+      background: var(--bg-subtle);
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+    }
+
+    .question-index {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    h2.question-title {
+      font-size: 1.12rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    /* Options */
+    .options-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .option-card {
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      font-size: 0.92rem;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      text-align: left;
+      transition: background-color 0.15s, border-color 0.15s;
+      width: 100%;
+    }
+
+    .option-card:hover:not(.locked) {
+      background: var(--bg-subtle);
+      border-color: var(--border-dark);
+    }
+
+    .option-index {
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      width: 22px;
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .option-content {
+      flex: 1;
+      color: var(--text-main);
+    }
+
+    .option-card.correct {
+      background: var(--success-bg);
+      border-color: var(--success-border);
+    }
+
+    .option-card.correct .option-index {
+      background: var(--success);
+      color: #ffffff;
+      border-color: var(--success);
+    }
+
+    .option-card.incorrect {
+      background: var(--error-bg);
+      border-color: var(--error-border);
+    }
+
+    .option-card.incorrect .option-index {
+      background: var(--error);
+      color: #ffffff;
+      border-color: var(--error);
+    }
+
+    .option-card.locked {
+      cursor: default;
+    }
+
+    /* Explanation Panel */
+    .explanation-panel {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 24px;
+      display: none;
+    }
+
+    .explanation-panel.show {
+      display: block;
+    }
+
+    .explanation-heading {
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .explanation-body {
+      font-size: 0.92rem;
+      color: var(--text-main);
+      line-height: 1.5;
+    }
+
+    /* Navigation Row */
+    .navigation-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    /* Sidebar Palette */
+    aside.sidebar {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      position: sticky;
+      top: 80px;
+    }
+
+    .sidebar-header {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .progress-track {
+      background: var(--bg-subtle);
+      border-radius: 999px;
+      height: 6px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .progress-fill {
+      background: var(--accent);
+      height: 100%;
+      width: 0%;
+      transition: width 0.2s ease;
+    }
+
+    .legend-row {
+      display: flex;
+      gap: 12px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .legend-box {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+    }
+
+    .palette-container {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+      margin-bottom: 16px;
+      max-height: 400px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .palette-item {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 8px 0;
+      text-align: center;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: background-color 0.15s, border-color 0.15s;
+    }
+
+    .palette-item:hover {
+      border-color: var(--border-dark);
+      color: var(--text-main);
+    }
+
+    .palette-item.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      outline: 2px solid var(--accent);
+    }
+
+    .palette-item.correct {
+      background: var(--success);
+      color: #ffffff;
+      border-color: var(--success);
+    }
+
+    .palette-item.incorrect {
+      background: var(--error);
+      color: #ffffff;
+      border-color: var(--error);
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-window {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 580px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-title-bar {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+
+    .modal-close-btn {
+      background: transparent;
+      border: none;
+      font-size: 1.25rem;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+
+    .modal-content-area {
+      padding: 20px;
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+
+    .stats-tiles {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .tile {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 12px;
+      text-align: center;
+    }
+
+    .tile-num {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .tile-txt {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .breakdown-group {
+      margin-bottom: 12px;
+    }
+
+    .breakdown-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .bar-bg {
+      background: var(--bg-subtle);
+      height: 6px;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar-val {
+      background: var(--accent);
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+    }
+
+    .advice-box {
+      margin-top: 16px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: var(--radius);
+      padding: 12px;
+    }
+
+    .advice-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #1d4ed8;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .advice-text {
+      font-size: 0.85rem;
+      color: #1e3a8a;
+      line-height: 1.4;
+    }
+
+    .modal-actions {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      background: var(--bg-subtle);
+    }
+
+    @media (max-width: 860px) {
+      .app-container {
+        grid-template-columns: 1fr;
+      }
+      aside.sidebar {
+        position: static;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div>
+        <div class="brand-title">Mobile Application Development - Midterm Simulator</div>
+        <div class="brand-subtitle">USTH ICT Laboratory - Slides 1 to 6 &amp; Practical Works PW1 to PW14</div>
+      </div>
+      <div class="header-indicators">
+        <div class="indicator-pill">Time: <span id="timerValue">00:13</span></div>
+        <div class="indicator-pill">Score: <span id="scoreValue">0</span> / <span id="totalQuestionsValue">50</span> (<span id="scorePercentValue">0%</span>)</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="app-container">
+
+    <main>
+      <!-- Mode Selection & Controls -->
+      <div class="controls-bar">
+        <div class="select-wrapper">
+          <label class="field-label" for="modeSelect">Mode:</label>
+          <select id="modeSelect" class="dropdown">
+            <option value="exam1">Exam 1 (50 Questions - Mixed)</option>
+            <option value="exam2">Exam 2 (50 Questions - Mixed)</option>
+            <option value="exam3">Exam 3 (50 Questions - Mixed)</option>
+            <option value="topic1">Topic 1: Platform, Hardware &amp; Architecture (30 Qs)</option>
+            <option value="topic2">Topic 2: Core Controllers: Activity &amp; Fragment (30 Qs)</option>
+            <option value="topic3">Topic 3: Views, ViewGroups &amp; Advanced Layouts (30 Qs)</option>
+            <option value="topic4">Topic 4: Resources, Navigation, Drawables &amp; ToolBar (30 Qs)</option>
+            <option value="topic5">Topic 5: Concurrency: UI Thread, Handler &amp; Tasks (30 Qs)</option>
+            <option value="all">All 150 Questions</option>
+          </select>
+        </div>
+
+        <div class="button-row">
+          <button class="btn btn-default" id="shuffleBtn">Shuffle</button>
+          <button class="btn btn-danger" id="resetBtn">Reset</button>
+          <button class="btn btn-dark" id="statsBtn">Statistics</button>
+        </div>
+      </div>
+
+      <!-- Question Panel -->
+      <div class="question-panel">
+        <div class="question-meta-row">
+          <div class="badge-group">
+            <span class="tag-badge lecture" id="badgeLecture">Module 1</span>
+            <span class="tag-badge topic" id="badgeTopic">UI Overdraw Definition</span>
+          </div>
+          <span class="question-index" id="questionCounterLabel">Question 1 of 50</span>
+        </div>
+
+        <h2 class="question-title" id="questionContent">What does the term 'UI Overdraw' represent in Android graphic rendering?</h2>
+
+        <div class="options-group" id="optionsGroup"><button class="option-card"><span class="option-index">A</span><span class="option-content">Drawing pixels beyond the physical device bezel</span></button><button class="option-card"><span class="option-index">B</span><span class="option-content">Allocating graphics memory exceeding GPU VRAM</span></button><button class="option-card"><span class="option-index">C</span><span class="option-content">Rendering bitmap drawables at 120 frames per second</span></button><button class="option-card"><span class="option-index">D</span><span class="option-content">Drawing the same pixel multiple times in one frame</span></button></div>
+
+        <!-- Explanation Panel -->
+        <div class="explanation-panel" id="explanationPanel">
+          <div class="explanation-heading">Explanation &amp; Rationale</div>
+          <p class="explanation-body" id="explanationContent"></p>
+        </div>
+
+        <!-- Navigation Row -->
+        <div class="navigation-row">
+          <button class="btn btn-default" id="prevBtn" disabled="">Previous</button>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-default" id="unansweredBtn">Next Unanswered</button>
+            <button class="btn btn-dark" id="nextBtn">Next</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Sidebar Question Palette -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <span>Question Palette</span>
+        <span id="answeredRatio" style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">0/50</span>
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+      </div>
+
+      <div class="legend-row">
+        <div class="legend-item"><div class="legend-box" style="background: var(--success);"></div> Correct</div>
+        <div class="legend-item"><div class="legend-box" style="background: var(--error);"></div> Incorrect</div>
+        <div class="legend-item"><div class="legend-box" style="background: var(--border-color);"></div> Blank</div>
+      </div>
+
+      <div class="palette-container" id="paletteContainer"><button class="palette-item active" id="p-item-0">1</button><button class="palette-item" id="p-item-1">2</button><button class="palette-item" id="p-item-2">3</button><button class="palette-item" id="p-item-3">4</button><button class="palette-item" id="p-item-4">5</button><button class="palette-item" id="p-item-5">6</button><button class="palette-item" id="p-item-6">7</button><button class="palette-item" id="p-item-7">8</button><button class="palette-item" id="p-item-8">9</button><button class="palette-item" id="p-item-9">10</button><button class="palette-item" id="p-item-10">11</button><button class="palette-item" id="p-item-11">12</button><button class="palette-item" id="p-item-12">13</button><button class="palette-item" id="p-item-13">14</button><button class="palette-item" id="p-item-14">15</button><button class="palette-item" id="p-item-15">16</button><button class="palette-item" id="p-item-16">17</button><button class="palette-item" id="p-item-17">18</button><button class="palette-item" id="p-item-18">19</button><button class="palette-item" id="p-item-19">20</button><button class="palette-item" id="p-item-20">21</button><button class="palette-item" id="p-item-21">22</button><button class="palette-item" id="p-item-22">23</button><button class="palette-item" id="p-item-23">24</button><button class="palette-item" id="p-item-24">25</button><button class="palette-item" id="p-item-25">26</button><button class="palette-item" id="p-item-26">27</button><button class="palette-item" id="p-item-27">28</button><button class="palette-item" id="p-item-28">29</button><button class="palette-item" id="p-item-29">30</button><button class="palette-item" id="p-item-30">31</button><button class="palette-item" id="p-item-31">32</button><button class="palette-item" id="p-item-32">33</button><button class="palette-item" id="p-item-33">34</button><button class="palette-item" id="p-item-34">35</button><button class="palette-item" id="p-item-35">36</button><button class="palette-item" id="p-item-36">37</button><button class="palette-item" id="p-item-37">38</button><button class="palette-item" id="p-item-38">39</button><button class="palette-item" id="p-item-39">40</button><button class="palette-item" id="p-item-40">41</button><button class="palette-item" id="p-item-41">42</button><button class="palette-item" id="p-item-42">43</button><button class="palette-item" id="p-item-43">44</button><button class="palette-item" id="p-item-44">45</button><button class="palette-item" id="p-item-45">46</button><button class="palette-item" id="p-item-46">47</button><button class="palette-item" id="p-item-47">48</button><button class="palette-item" id="p-item-48">49</button><button class="palette-item" id="p-item-49">50</button></div>
+
+      <button class="btn btn-dark" id="finishBtn" style="width: 100%; justify-content: center;">Finish Exam &amp; Review</button>
+    </aside>
+
+  </div>
+
+  <!-- Performance Modal -->
+  <div class="modal-backdrop" id="statsModal">
+    <div class="modal-window">
+      <div class="modal-title-bar">
+        <div class="modal-title">Performance Summary</div>
+        <button class="modal-close-btn" id="closeModalCross">×</button>
+      </div>
+
+      <div class="modal-content-area">
+        <div class="stats-tiles">
+          <div class="tile">
+            <div class="tile-num" id="modalFinalScore">0 / 50</div>
+            <div class="tile-txt">Score</div>
+          </div>
+          <div class="tile">
+            <div class="tile-num" id="modalAccuracy">0%</div>
+            <div class="tile-txt">Accuracy</div>
+          </div>
+          <div class="tile">
+            <div class="tile-num" id="modalGrade">F</div>
+            <div class="tile-txt">Grade</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 16px; font-size: 0.9rem; font-weight: 700;">Topic Analysis:</div>
+
+        <div class="breakdown-group">
+          <div class="breakdown-info">
+            <span>Module 1: Platform, Hardware &amp; Architecture</span>
+            <span id="txtMod1">0% (0/0)</span>
+          </div>
+          <div class="bar-bg">
+            <div class="bar-val" id="barMod1" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <div class="breakdown-group">
+          <div class="breakdown-info">
+            <span>Module 2: Core Controllers: Activity &amp; Fragment</span>
+            <span id="txtMod2">0% (0/0)</span>
+          </div>
+          <div class="bar-bg">
+            <div class="bar-val" id="barMod2" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <div class="breakdown-group">
+          <div class="breakdown-info">
+            <span>Module 3: Views, ViewGroups &amp; Advanced Layouts</span>
+            <span id="txtMod3">0% (0/0)</span>
+          </div>
+          <div class="bar-bg">
+            <div class="bar-val" id="barMod3" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <div class="breakdown-group">
+          <div class="breakdown-info">
+            <span>Module 4: Resources, Navigation, Drawables &amp; ToolBar</span>
+            <span id="txtMod4">0% (0/0)</span>
+          </div>
+          <div class="bar-bg">
+            <div class="bar-val" id="barMod4" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <div class="breakdown-group">
+          <div class="breakdown-info">
+            <span>Module 5: Concurrency: UI Thread, Handler &amp; Tasks</span>
+            <span id="txtMod5">0% (0/0)</span>
+          </div>
+          <div class="bar-bg">
+            <div class="bar-val" id="barMod5" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <div class="advice-box">
+          <div class="advice-title">Recommendations</div>
+          <div class="advice-text" id="adviceText">Complete the questions to generate performance insights.</div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-default" id="reviewWrongBtn">Review Incorrect Only</button>
+        <button class="btn btn-dark" id="modalCloseBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Embedded question bank
+    const RAW_QUESTIONS = [{"id": 1, "lecture": "Module 1", "topic": "UI Overdraw Definition", "question": "What does the term 'UI Overdraw' represent in Android graphic rendering?", "options": ["Drawing pixels beyond the physical device bezel", "Allocating graphics memory exceeding GPU VRAM", "Rendering bitmap drawables at 120 frames per second", "Drawing the same pixel multiple times in one frame"], "answer": 3, "explanation": "UI Overdraw occurs when the system paints a pixel on the screen multiple times in a single frame, wasting GPU cycles."}, {"id": 2, "lecture": "Module 1", "topic": "Overdraw Visualization", "question": "Which color indicates severe overdraw (4x or more) in Android GPU Debug mode?", "options": ["Blue", "Light Green", "Dark Red", "Pure White"], "answer": 2, "explanation": "In GPU Overdraw debugging: No color = 1x, Blue = 2x, Green = 3x, Light Red = 4x, Dark Red = 4x or more."}, {"id": 3, "lecture": "Module 1", "topic": "Eliminating Overdraw", "question": "What is a standard technique to reduce UI overdraw in nested layouts?", "options": ["Enabling hardware acceleration on every View", "Removing redundant background attributes from parent layouts", "Converting all layout dimensions from dp to px", "Replacing all Fragments with standalone Activities"], "answer": 1, "explanation": "Removing redundant `android:background` attributes from parent containers prevents drawing overlapping opaque layers."}, {"id": 4, "lecture": "Module 1", "topic": "Physical Device Debugging", "question": "What system setting must be enabled on an Android phone to deploy apps via USB?", "options": ["USB Debugging in Developer Options", "OEM Bootloader Unlocking", "Fastboot Recovery Mode", "Full Disk Encryption Bypass"], "answer": 0, "explanation": "Deploying and debugging applications from Android Studio to a physical phone requires enabling USB Debugging in Developer Options."}, {"id": 5, "lecture": "Module 1", "topic": "Android System Nature", "question": "In computer engineering terms, what is Android accurately classified as?", "options": ["A specialized hardware SoC microchip", "A standalone bytecode execution shell", "A monolithic desktop BSD distribution", "A mobile operating system and Linux distribution"], "answer": 3, "explanation": "Slide 7 of Intro Android defines Android as a Mobile Operating System, a Linux Distribution, and user-space frameworks, NOT a device."}, {"id": 6, "lecture": "Module 1", "topic": "Supported Architectures", "question": "Which processor instruction set architectures are supported by the Android NDK?", "options": ["SPARC, PowerPC, and Itanium", "Only 64-bit ARM v8 architectures", "ARM 32/64 bits, Intel x86/x64, and MIPS", "Only Intel x86 and AMD64 architectures"], "answer": 2, "explanation": "Slide 10 of Intro Android lists ARM 32/64 bits, Intel x86/x64, and MIPS as the primary supported hardware CPU platforms."}, {"id": 7, "lecture": "Module 1", "topic": "Screen Spectrum", "question": "What physical touchscreen size spectrum does the Android platform accommodate?", "options": ["4.0 inches to 6.5 inches", "2.0 inches to 100.0 inches", "5.0 inches to 12.0 inches", "3.5 inches to 7.0 inches"], "answer": 1, "explanation": "Slide 14 highlights that Android touchscreen hardware spans from 2 inches (smartwatches) to 100 inches (large displays)."}, {"id": 8, "lecture": "Module 1", "topic": "Hardware Sensors", "question": "Which group contains hardware sensors commonly integrated into Android devices?", "options": ["GPS, gyro, accelerometer, and barometer", "Geiger counter, sonar, and radar", "Seismometer, spectrometer, and laser", "Barometer, optical prism, and tachometer"], "answer": 0, "explanation": "Slide 15 lists GPS, compass, gyro, accelero, baro, magneto, proximity, and thermo as standard mobile sensors."}, {"id": 9, "lecture": "Module 1", "topic": "Core Design Principles", "question": "Which fundamental software architecture principle is reinforced by Android development?", "options": ["Coupling UI rendering directly into business models", "Synchronous blocking network communication on UI", "Linear top-down procedural scripting", "Strict separation of UI design and functionality"], "answer": 3, "explanation": "Slide 21 emphasizes that Android reinforces separation of UI design (XML) and functionality (Java), and asynchronous callbacks."}, {"id": 10, "lecture": "Module 1", "topic": "Hardware Constraints", "question": "What is the typical RAM spectrum for mobile devices addressed in the lectures?", "options": ["16 MB to 64 MB", "8 GB to 32 GB", "128 MB to 4 GB+", "64 GB to 128 GB"], "answer": 2, "explanation": "Slide 11 notes internal memory ranging from 128MB (budget/embedded) up to 4GB+ on mainstream devices."}, {"id": 11, "lecture": "Module 1", "topic": "Android Milestones", "question": "Which Android release first introduced support for on-screen virtual software keyboards?", "options": ["Android 1.0 Alpha", "Android 1.5 Cupcake", "Android 2.2 Froyo", "Android 4.0 ICS"], "answer": 1, "explanation": "Android 1.5 Cupcake introduced the on-screen soft keyboard, replacing the physical slide-out hardware keyboard."}, {"id": 12, "lecture": "Module 1", "topic": "Screen Density Milestone", "question": "Which early Android version introduced framework support for multiple screen resolutions?", "options": ["Android 1.6 Donut", "Android 1.1 Petit Four", "Android 2.0 Eclair", "Android 2.3 Gingerbread"], "answer": 0, "explanation": "Android 1.6 Donut introduced framework support for multiple screen resolutions and densities (WVGA, QVGA)."}, {"id": 13, "lecture": "Module 1", "topic": "Tablet Specialization", "question": "Which version was engineered specifically for tablets, introducing Fragment and ActionBar?", "options": ["Android 2.2 Froyo", "Android 4.4 KitKat", "Android 5.0 Lollipop", "Android 3.0 Honeycomb"], "answer": 3, "explanation": "Honeycomb (3.0, API 11) was designed specifically for tablets and introduced Fragments and the ActionBar."}, {"id": 14, "lecture": "Module 1", "topic": "Low RAM Optimization", "question": "Which Android release was specifically engineered to run efficiently on 512MB RAM devices?", "options": ["Android 4.1 Jelly Bean", "Android 6.0 Marshmallow", "Android 4.4 KitKat", "Android 8.0 Oreo"], "answer": 2, "explanation": "Android 4.4 KitKat introduced Project Svelte, optimizing the OS and framework to run smoothly on devices with 512MB RAM."}, {"id": 15, "lecture": "Module 1", "topic": "Material Design Debut", "question": "Which major Android version introduced Material Design and adopted ART as the default runtime?", "options": ["Android 4.0 Ice Cream Sandwich", "Android 5.0 Lollipop", "Android 7.0 Nougat", "Android 8.0 Oreo"], "answer": 1, "explanation": "Android 5.0 Lollipop introduced Material Design system-wide and made ART the default, replacing Dalvik."}, {"id": 16, "lecture": "Module 1", "topic": "Dual Fragmentation", "question": "What two primary categories of fragmentation challenge Android app developers?", "options": ["Platform OS versions and device screen sizes", "Kernel patch version and USB connector type", "Battery capacity and storage bus speed", "Camera megapixel count and speaker wattage"], "answer": 0, "explanation": "Slides 36 and 37 showcase the two core fragmentation dimensions: Platform Versions and Device Sizes."}, {"id": 17, "lecture": "Module 1", "topic": "Stack Layers", "question": "What is the foundational bottom layer in the standard 4-layer Android software architecture?", "options": ["Native C/C++ Libraries", "Application Framework", "Android RunTime", "Linux Kernel"], "answer": 3, "explanation": "Slide 4 of Fundamentals presents the stack from bottom up: Linux Kernel -> Libraries -> Application Framework -> Applications."}, {"id": 18, "lecture": "Module 1", "topic": "Kernel Responsibilities", "question": "What core operating system services are delegated to the underlying Linux Kernel in Android?", "options": ["XML view layout inflation and parsing", "Activity backstack and fragment transactions", "Hardware drivers, process management, and security", "JSON serialization and HTTP REST client pools"], "answer": 2, "explanation": "Slide 5 states the Linux Kernel provides device drivers (display, camera, wifi), process isolation, and memory management."}, {"id": 19, "lecture": "Module 1", "topic": "Native Libraries", "question": "Which programming language is predominantly used to implement Android's low-level native libraries?", "options": ["Java", "C and C++", "Python", "Rust"], "answer": 1, "explanation": "Slide 6 explicitly notes that native libraries (WebKit, SQLite, FreeType, OpenGL ES) are written mostly in C/C++."}, {"id": 20, "lecture": "Module 1", "topic": "Database Engine", "question": "Which native relational database engine is embedded directly into Android's C/C++ libraries?", "options": ["SQLite", "PostgreSQL", "MySQL Embedded", "MongoDB Native"], "answer": 0, "explanation": "Slide 6 notes that local structured databases are powered by the native SQLite library embedded into the platform."}, {"id": 21, "lecture": "Module 1", "topic": "Application Framework", "question": "In which programming language is the Android Application Framework implemented?", "options": ["ANSI C", "C++ exclusively", "Assembly", "Java"], "answer": 3, "explanation": "Slide 7 states the Application Framework (Activity Manager, Window Manager, View System) is written in Java."}, {"id": 22, "lecture": "Module 1", "topic": "Compilation Step 1", "question": "What tool compiles Java source files (.java) into standard Java bytecode (.class)?", "options": ["dx tool", "aapt tool", "javac compiler", "dex2oat utility"], "answer": 2, "explanation": "Slide 10 details that .java source files are compiled into .class bytecode files using the standard `javac` compiler."}, {"id": 23, "lecture": "Module 1", "topic": "DEX Translation", "question": "What tool translates multiple .class files into a single Dalvik Executable (.dex) file?", "options": ["javac", "dx tool (or D8)", "apkbuilder", "javap disassembler"], "answer": 1, "explanation": "Slide 10 shows the `dx` tool processing multiple .class bytecode files into a single optimized `classes.dex` file."}, {"id": 24, "lecture": "Module 1", "topic": "Register vs Stack", "question": "What virtual machine architecture differentiates Dalvik/ART from the standard stack-based JVM?", "options": ["Register-based architecture", "Accumulator-based architecture", "Queue-based architecture", "Pipeline-based architecture"], "answer": 0, "explanation": "Dalvik and ART use a register-based VM architecture, reducing instruction count and memory footprint on mobile CPUs."}, {"id": 25, "lecture": "Module 1", "topic": "Dalvik JIT Nature", "question": "How does the Dalvik Virtual Machine compile bytecode into native machine code?", "options": ["Ahead-Of-Time (AOT) during package download", "Static compilation during IDE source editing", "Pure interpretation without machine code generation", "Just-In-Time (JIT) dynamically during execution"], "answer": 3, "explanation": "Slide 11 and 12 indicate Dalvik uses JIT (Just-In-Time) compilation, compiling frequently used bytecode on the fly."}, {"id": 26, "lecture": "Module 1", "topic": "ART AOT Nature", "question": "When does the Android RunTime (ART) compile application bytecode into native machine instructions?", "options": ["Each time an Activity is resumed", "Only when battery level exceeds eighty percent", "Ahead-Of-Time (AOT) upon application installation", "During the initial APK packaging on the developer PC"], "answer": 2, "explanation": "ART compiles DEX bytecode into native ELF machine binaries Ahead-Of-Time (AOT) during app installation on device."}, {"id": 27, "lecture": "Module 1", "topic": "ART Runtime Advantages", "question": "What key operational advantage does ART offer over Dalvik according to AnandTech benchmarks?", "options": ["Smaller APK file storage footprints on disk", "Faster application startup and reduced GC pause latency", "Zero memory heap consumption during runtime", "Complete elimination of runtime permissions"], "answer": 1, "explanation": "Slide 12 demonstrates that ART eliminates JIT overhead at runtime, resulting in faster app launches and shorter GC pauses."}, {"id": 28, "lecture": "Module 1", "topic": "Sandboxing Mechanism", "question": "How does Android enforce process isolation and security sandboxing between installed applications?", "options": ["By assigning a distinct Linux User ID (UID) to each app", "By executing all apps under the root superuser account", "By running all applications inside a single shared VM", "By restricting apps to read-only memory partitions"], "answer": 0, "explanation": "Slide 10 highlights 'Separated Process, Separated User, Isolation', where the Linux kernel assigns a unique UID per app."}, {"id": 29, "lecture": "Module 1", "topic": "APK Packaging", "question": "What tool packages compiled resources, assets, and classes.dex into the deployable .apk file?", "options": ["javac", "dx tool", "dalvikvm", "aapt (Android Asset Packaging Tool)"], "answer": 3, "explanation": "The `aapt` tool compiles resources and packages them alongside classes.dex and AndroidManifest.xml into the final APK."}, {"id": 30, "lecture": "Module 1", "topic": "Source Pipeline", "question": "What is the complete artifact progression from Java source code to installation on device?", "options": [".java -> .dex -> .class -> .apk", ".class -> .java -> .dex -> .apk", ".java -> .class -> .dex -> .apk", ".dex -> .class -> .apk -> .java"], "answer": 2, "explanation": "Slide 10 maps the pipeline: .java source compiled by javac to .class, translated by dx to .dex, packaged by aapt into .apk."}, {"id": 31, "lecture": "Module 2", "topic": "MVC Controller Role", "question": "In Android's MVC architecture implementation, which components fulfill the Controller role?", "options": ["SQLite database tables and POJOs", "Activity and Fragment classes", "XML layout files and View widgets", "AndroidManifest and Gradle build scripts"], "answer": 1, "explanation": "Slides 14-18 map MVC: Model = Business Data POJOs, View = XML Widgets, Controller = Activity & Fragment."}, {"id": 32, "lecture": "Module 2", "topic": "Core Building Blocks", "question": "Which of the following is NOT one of the 4 core application building blocks in Android?", "options": ["Fragment", "Activity", "Service", "Broadcast Receiver"], "answer": 0, "explanation": "The 4 core components are Activity, Service, Broadcast Receiver, and Content Provider. Fragment is a UI sub-component."}, {"id": 33, "lecture": "Module 2", "topic": "Context Definition", "question": "How is the Context class characterized in the Fundamentals lecture slides?", "options": ["A hardware abstraction driver interface", "A dedicated graphics rendering thread context", "A network packet serializer for JSON payloads", "Central command center for app data and system services"], "answer": 3, "explanation": "Slide 19 defines Context as the 'Central command center' providing access to application data, settings, files, and services."}, {"id": 34, "lecture": "Module 2", "topic": "Application Subclass", "question": "Which design pattern is standardly implemented when subclassing Application for global data?", "options": ["Factory Method pattern", "Observer pattern", "Singleton pattern", "Decorator pattern"], "answer": 2, "explanation": "Slide 21 shows `MyApplication extends Application` using the Singleton pattern with `getInstance()` to share global state."}, {"id": 35, "lecture": "Module 2", "topic": "Early Initialization", "question": "Which crash reporting tool is showcased in Slide 22 as an example of early initialization?", "options": ["Firebase Crashlytics", "ACRA", "Sentry Android", "Bugsnag"], "answer": 1, "explanation": "Slide 22 demonstrates early initialization in Application.onCreate() using ACRA (Application Crash Reports for Android)."}, {"id": 36, "lecture": "Module 2", "topic": "Memory Limits", "question": "What exception occurs when an application exceeds its allotted heap memory limit?", "options": ["OutOfMemoryError", "NullPointerException", "IndexOutOfBoundsException", "ActivityNotFoundException"], "answer": 0, "explanation": "Slide 23 details Android memory limits: exceeding the heap ceiling triggers an Out-of-memory Exception (OOM)."}, {"id": 37, "lecture": "Module 2", "topic": "Manifest Metadata", "question": "What is the primary role of the AndroidManifest.xml file?", "options": ["To compile Java classes into DEX bytecode", "To define UI styles, colors, and string translations", "To manage multithreaded task queues at runtime", "To declare app metadata, target SDK, components, and permissions"], "answer": 3, "explanation": "Slide 24 states AndroidManifest.xml defines app metadata, target SDK, entry point, permissions, and component declarations."}, {"id": 38, "lecture": "Module 2", "topic": "Permission Declaration", "question": "Which XML tag in AndroidManifest.xml requests system permissions such as SEND_SMS?", "options": ["<permission-request>", "<grant-permission>", "<uses-permission>", "<require-feature>"], "answer": 2, "explanation": "Slide 24 illustrates: `<uses-permission android:name=\"android.permission.SEND_SMS\"/>`."}, {"id": 39, "lecture": "Module 2", "topic": "Practical Work 1", "question": "In Practical Work 1, what is the required package identifier for the USTH Weather project?", "options": ["com.usth.weather", "vn.edu.usth.weather", "edu.usth.ict.weather", "org.weather.usth"], "answer": 1, "explanation": "Slide 25 specifies: App name 'USTH Weather' and Package 'vn.edu.usth.weather'."}, {"id": 40, "lecture": "Module 2", "topic": "Activity Definition", "question": "What does a single Activity represent in an Android application?", "options": ["A single focused screen with user interaction", "A background headless service thread", "A broadcast receiver for system intents", "A global content provider database wrapper"], "answer": 0, "explanation": "Slide 28 defines Activity as a fundamental building block having a unique purpose and handling the display of a single screen."}, {"id": 41, "lecture": "Module 2", "topic": "onCreate Role", "question": "What essential setup actions are performed inside Activity.onCreate()?", "options": ["Acquiring camera hardware exclusively", "Saving unsaved persistent state to disk", "Stopping running UI animations immediately", "Loading layout XML via setContentView() and initializing views"], "answer": 3, "explanation": "Slide 30 indicates onCreate() is for initialization, loading view layouts via setContentView(), and initializing components."}, {"id": 42, "lecture": "Module 2", "topic": "onPause Actions", "question": "What actions should an Activity perform inside its onPause() callback?", "options": ["Allocating heavy bitmap memory buffers", "Calling setContentView() to rebuild the view hierarchy", "Stopping animations, heavy tasks, and saving unsaved changes", "Binding network adapters to the current window"], "answer": 2, "explanation": "Slide 31 instructs that onPause() must stop animations or heavy tasks and save unsaved changes."}, {"id": 43, "lecture": "Module 2", "topic": "onResume State", "question": "When does an Activity enter the onResume() state in its lifecycle?", "options": ["When it is completely hidden in the background", "When it comes to the foreground and is interactive", "Only when the screen orientation is locked", "Immediately before its process is terminated"], "answer": 1, "explanation": "Slide 32 states onResume() is called when the activity comes to the foreground and should acquire resources (e.g. camera)."}, {"id": 44, "lecture": "Module 2", "topic": "Screen Rotation", "question": "What lifecycle sequence occurs by default when a device screen is rotated?", "options": ["The activity is destroyed and a new instance is created", "The activity pauses without view changes", "The activity restarts without triggering onDestroy", "The activity freezes rendering until user touch"], "answer": 0, "explanation": "Slide 33 details orientation change: onSaveInstanceState() -> onDestroy() -> create a new activity instance."}, {"id": 45, "lecture": "Module 2", "topic": "State Preservation", "question": "Which callback saves dynamic UI state into a Bundle before Activity recreation?", "options": ["onStop()", "onDestroy()", "onPause()", "onSaveInstanceState()"], "answer": 3, "explanation": "Slide 33 highlights onSaveInstanceState() as the callback to save dynamic state into a Bundle before recreation."}, {"id": 46, "lecture": "Module 2", "topic": "Closing Activity", "question": "What method programmatically closes an Activity and triggers its destruction?", "options": ["close()", "terminate()", "finish()", "destroy()"], "answer": 2, "explanation": "Slide 34 specifies: 'Close current activity: call finish()', which leads to onDestroy() being called."}, {"id": 47, "lecture": "Module 2", "topic": "Intent Purpose", "question": "What is an Intent in Android system architecture?", "options": ["A low-level memory allocation mutex lock", "An asynchronous messaging mechanism between components", "A graphical vector path drawing element", "A thread synchronization barrier object"], "answer": 1, "explanation": "Slide 35 defines Intent as an 'Asynchronous messaging mechanism' used to pass messages and parameters between activities."}, {"id": 48, "lecture": "Module 2", "topic": "Passing Extras", "question": "Which method attaches key-value parameter payloads to an Intent object?", "options": ["putExtra()", "attachData()", "setBundle()", "addParameter()"], "answer": 0, "explanation": "Slide 35 demonstrates: `intent.putExtra(\"location\", locationEditText.getText())`."}, {"id": 49, "lecture": "Module 2", "topic": "Practical Work 2", "question": "In Practical Work 2, what Android logging utility is used to trace lifecycle callbacks?", "options": ["System.out.println()", "Console.log()", "Toast.makeText()", "Log.i()"], "answer": 3, "explanation": "Slide 36 requires overriding lifecycle methods and using `Log.i()` to output lifecycle execution traces to Logcat."}, {"id": 50, "lecture": "Module 2", "topic": "Fragment Genesis", "question": "What user interface challenge directly prompted the creation of Fragments in Android 3.0?", "options": ["Hardware keyboards being replaced by touchscreens", "The need to run multiple apps side by side in split-screen", "Differing screen sizes and multi-pane tablet layouts", "High resolution cameras producing oversized bitmaps"], "answer": 2, "explanation": "Slides 40-43 explain that Fragments were created to handle differing screen sizes (Phone vs Tablet Master-Detail UX)."}, {"id": 51, "lecture": "Module 2", "topic": "Fragment Definition", "question": "What does a Fragment represent within an application's architecture?", "options": ["An autonomous process running in a separate Linux sandbox", "A reusable portion of user interface hosted by an Activity", "A system-wide broadcast notification channel", "A background SQLite database transaction"], "answer": 1, "explanation": "Slide 44 defines Fragment as representing a behavior or a portion of user interface, acting as a sub-building block."}, {"id": 52, "lecture": "Module 2", "topic": "Support Library", "question": "How can applications running on Android versions below API 11 utilize Fragments?", "options": ["By using the Android Support Library", "By compiling with Dalvik bytecode flags", "By disabling hardware acceleration", "By subclassing standard NativeActivity"], "answer": 0, "explanation": "Slide 45 explains that while native from API 11, Fragments can be used on devices as low as API 4 via the Support Library."}, {"id": 53, "lecture": "Module 2", "topic": "Fragment View Inflation", "question": "In which lifecycle callback does a Fragment inflate and instantiate its view hierarchy?", "options": ["onAttach()", "onActivityCreated()", "onResume()", "onCreateView()"], "answer": 3, "explanation": "Slide 46 lists the Fragment lifecycle methods: onCreateView() is dedicated to view initialization and XML layout inflation."}, {"id": 54, "lecture": "Module 2", "topic": "DialogFragment", "question": "Which Fragment subclass manages modal floating dialog displays with lifecycle survival?", "options": ["PopupFragment", "AlertFragment", "DialogFragment", "ModalFragment"], "answer": 2, "explanation": "Slide 47 highlights DialogFragment as a popular specialized class for managing floating dialogs."}, {"id": 55, "lecture": "Module 2", "topic": "ListFragment", "question": "Which Fragment subclass contains a pre-configured ListView and list event callbacks?", "options": ["RecyclerFragment", "ListFragment", "TableFragment", "ArrayFragment"], "answer": 1, "explanation": "Slide 48 highlights ListFragment as a specialized subclass hosting a ListView and list selection handlers."}, {"id": 56, "lecture": "Module 2", "topic": "PreferenceFragment", "question": "Which Fragment subclass presents a hierarchy of user application preference items?", "options": ["PreferenceFragment", "ConfigFragment", "SettingFragment", "OptionsFragment"], "answer": 0, "explanation": "Slide 49 highlights PreferenceFragment as the built-in fragment subclass for managing user preference screens."}, {"id": 57, "lecture": "Module 2", "topic": "FragmentManager", "question": "What system class coordinates and executes Fragment additions and replacements?", "options": ["ActivityCoordinator", "WindowController", "LayoutManager", "FragmentManager"], "answer": 3, "explanation": "Slide 50 states that an Activity coordinates fragments optionally or mostly using FragmentManager."}, {"id": 58, "lecture": "Module 2", "topic": "Transaction Commit", "question": "What method must be called to schedule execution of a FragmentTransaction?", "options": ["apply()", "execute()", "commit()", "finish()"], "answer": 2, "explanation": "Slide 51 shows: `getFragmentManager().beginTransaction().add(R.id.container, firstFragment).commit()`."}, {"id": 59, "lecture": "Module 2", "topic": "Practical Work 3", "question": "In Practical Work 3, how is ForecastFragment's background color assigned in Java?", "options": ["In AndroidManifest.xml application theme", "Calling view.setBackgroundColor() inside onCreateView()", "Via Activity.onStart() layout parameters", "By setting the color attribute in colors.xml"], "answer": 1, "explanation": "Slide 52 instructs: 'Override onCreateView, get the returned View, Use view.setBackgroundColor(color)'."}, {"id": 60, "lecture": "Module 2", "topic": "Dynamic Container", "question": "When dynamically adding a Fragment via Java code, which ViewGroup typically serves as the target container?", "options": ["FrameLayout", "RadioGroup", "TableLayout", "ScrollView"], "answer": 0, "explanation": "Slide 51 shows adding a dynamic fragment to a target container: `add(R.id.container, firstFragment)` where container is a FrameLayout."}, {"id": 61, "lecture": "Module 3", "topic": "Base View Class", "question": "What is the common base superclass for all visual widgets and UI elements in Android?", "options": ["android.widget.Widget", "android.app.Activity", "android.graphics.Canvas", "android.view.View"], "answer": 3, "explanation": "Slide 56 identifies android.view.View as the basic building block of user interface."}, {"id": 62, "lecture": "Module 3", "topic": "ID Syntax", "question": "What XML prefix syntax creates and generates a new integer ID in R.id?", "options": ["@id/", "@new/id/", "@+id/", "@create/id/"], "answer": 2, "explanation": "Slide 58 specifies the `@+id/` syntax to define a new ID for subsequent lookup via findViewById()."}, {"id": 63, "lecture": "Module 3", "topic": "match_parent Sizing", "question": "Which dimension constant forces a View to expand and match its parent's bounds?", "options": ["wrap_content", "match_parent", "expand_all", "fill_horizontal"], "answer": 1, "explanation": "Slide 11 and Slide 58 discuss layout_width/height where match_parent expands the view to the parent's size."}, {"id": 64, "lecture": "Module 3", "topic": "Visibility States", "question": "What is the structural difference between View.INVISIBLE and View.GONE?", "options": ["INVISIBLE preserves layout space; GONE removes space completely", "INVISIBLE frees layout space; GONE preserves layout space", "INVISIBLE disables touch; GONE deletes the View instance", "INVISIBLE reduces alpha; GONE hides the window completely"], "answer": 0, "explanation": "INVISIBLE hides the view while keeping its layout bounds; GONE hides it and removes it from layout calculation."}, {"id": 65, "lecture": "Module 3", "topic": "Padding Definition", "question": "What spatial dimension does Padding define in the Android View box model?", "options": ["Distance from view border outward to adjacent views", "Distance between two nested ViewGroup boundaries", "Distance from the window edge to system status bar", "Distance from view border inward to inner content"], "answer": 3, "explanation": "Slide 59 illustrates that Padding is internal spacing from the border inward to the content."}, {"id": 66, "lecture": "Module 3", "topic": "Margin Definition", "question": "Where does Margin reside relative to the perimeter of a View?", "options": ["Inside the View around its text content", "Along the baseline of the rendered font", "Outside the View perimeter toward adjacent elements", "Between overlapping layers in a FrameLayout"], "answer": 2, "explanation": "Margin is external spacing located outside the view boundary, separating it from adjacent views."}, {"id": 67, "lecture": "Module 3", "topic": "Text Size Unit", "question": "Which dimension unit is strictly prescribed for TextView textSize attributes?", "options": ["px (pixels)", "sp (scale-independent pixels)", "dp (density-independent pixels)", "pt (points)"], "answer": 1, "explanation": "Slide 57 in Resources indicates sp is used for font sizes to respect user accessibility scaling settings."}, {"id": 68, "lecture": "Module 3", "topic": "centerCrop Scaling", "question": "Which ImageView scaleType maintains aspect ratio, fills the entire View, and crops excess?", "options": ["centerCrop", "fitXY", "centerInside", "fitStart"], "answer": 0, "explanation": "Slide 61 lists scaleType options: centerCrop maintains aspect ratio and fills the view by cropping excess."}, {"id": 69, "lecture": "Module 3", "topic": "fitXY Distortion", "question": "Which scaleType scales X and Y independently to fill the View, altering aspect ratio?", "options": ["centerInside", "centerCrop", "fitCenter", "fitXY"], "answer": 3, "explanation": "Slide 61 lists fitXY, which stretches the graphic to completely match view width and height, distorting aspect ratio."}, {"id": 70, "lecture": "Module 3", "topic": "Button Listener", "question": "Which callback interface handles user touch events on a Button?", "options": ["View.OnTouchListener", "View.OnHoverListener", "View.OnClickListener", "View.OnKeyListener"], "answer": 2, "explanation": "Slide 63 demonstrates handling push-button clicks using `button.setOnClickListener(new View.OnClickListener() { ... })`."}, {"id": 71, "lecture": "Module 3", "topic": "EditText Output", "question": "Why must .toString() be invoked on editText.getText() when reading user input?", "options": ["Because getText() returns an integer resource ID", "Because getText() returns an Editable CharSequence", "Because EditText stores character bytes in ASCII format", "Because input streams require explicit buffer flushing"], "answer": 1, "explanation": "Slide 64 shows `editText.getText()`, which returns an `Editable` object that requires `.toString()` to obtain a String."}, {"id": 72, "lecture": "Module 3", "topic": "ViewGroup Role", "question": "What is the primary architectural purpose of a ViewGroup in the View hierarchy?", "options": ["To act as a parent container managing child View layouts", "To execute asynchronous network background tasks", "To serialize data models into JSON formatted strings", "To compile XML resources into binary DEX bytecode"], "answer": 0, "explanation": "Slide 62 states that ViewGroups contain children (other Views) and define LayoutParams for their placement."}, {"id": 73, "lecture": "Module 3", "topic": "Practical Work 4", "question": "In Practical Work 4, what naming rule governs resource files placed in res/drawable?", "options": ["Must begin with an uppercase Latin letter", "Can include spaces and dashes freely", "Must begin with an integer digit", "Lowercase letters, digits, and underscores only"], "answer": 3, "explanation": "Slide 65 specifies: 'Don't have names starting with digits, Names contain lowercase letters, digits and underscores'."}, {"id": 74, "lecture": "Module 3", "topic": "Web Layout Analogy", "question": "In Slide 6, which legacy HTML tags are analogized to Android layout structures?", "options": ["<canvas> and <svg>", "<input> and <button>", "<div> and <table>", "<header> and <footer>"], "answer": 2, "explanation": "Slide 6 draws a historical comparison with old-school Web layouts using `<div>` and `<table>`."}, {"id": 75, "lecture": "Module 3", "topic": "FrameLayout Z-Order", "question": "How does FrameLayout position multiple child Views within its boundaries?", "options": ["Sequentially in a single horizontal row", "In layers stacked along the Z-axis like Photoshop", "In an automatic responsive two-column grid", "In circular orbits centered around the screen"], "answer": 1, "explanation": "Slide 17 defines FrameLayout: 'Multiple layers, Z-based order: like a Photoshop design. First child at the bottom'."}, {"id": 76, "lecture": "Module 3", "topic": "FrameLayout Alignment", "question": "Which child attribute positions an element within a FrameLayout (e.g. center)?", "options": ["android:layout_gravity", "android:orientation", "android:layout_weight", "android:scaleType"], "answer": 0, "explanation": "Slide 17 notes that FrameLayout children support gravity through `android:layout_gravity`."}, {"id": 77, "lecture": "Module 3", "topic": "LinearLayout Orientation", "question": "Which attribute sets horizontal or vertical arrangement in a LinearLayout?", "options": ["android:direction", "android:alignment", "android:layout_mode", "android:orientation"], "answer": 3, "explanation": "Slide 19 and Slide 20 show `android:orientation=\"vertical\"` or `\"horizontal\"`."}, {"id": 78, "lecture": "Module 3", "topic": "Weight Dimension Setup", "question": "When applying layout_weight in a horizontal LinearLayout, what should layout_width be?", "options": ["match_parent", "wrap_content", "0dp (or 0px)", "auto"], "answer": 2, "explanation": "Slide 22 and Slide 23 specify setting the dimension along the stretching axis to 0px (or 0dp) to delegate sizing."}, {"id": 79, "lecture": "Module 3", "topic": "Weight Formula", "question": "In Slide 22's weight formula, what term is subtracted from the parent width first?", "options": ["The sum of all child margins", "The sum of widths of children with weight = 0", "The system navigation bar height", "The internal padding of the last child"], "answer": 1, "explanation": "Slide 22 gives the formula where the sum of widths of unweighted children (weight = 0) is subtracted from parent width."}, {"id": 80, "lecture": "Module 3", "topic": "Slide 23 Exercise", "question": "In Slide 23 (720px total, Button2 = 100px fixed, Button1 & 3 weight = 1), what is Button1's width?", "options": ["310px", "250px", "360px", "200px"], "answer": 0, "explanation": "Remaining width = 720px - 100px = 620px. Sum of weights = 1 + 1 = 2. Button 1 width = (1/2) * 620px = 310px."}, {"id": 81, "lecture": "Module 3", "topic": "Slide 24 Padding", "question": "In Slide 24, with parent width 720px and 4px padding on both sides, what is inner width?", "options": ["720px", "716px", "704px", "712px"], "answer": 3, "explanation": "Parent width = 720px. Padding 4px on left and right subtracts 8px total: 720px - 8px = 712px."}, {"id": 82, "lecture": "Module 3", "topic": "Slide 24 Fixed Sum", "question": "In Slide 24, what is the combined width of all fixed elements (100px, 120px, two 17px dividers)?", "options": ["220px", "238px", "254px", "270px"], "answer": 2, "explanation": "Fixed views: item1 (100px) + divider 1 (1 + 8 + 8 = 17px) + divider 2 (17px) + item3 (120px) = 254px."}, {"id": 83, "lecture": "Module 3", "topic": "Slide 24 Weight Result", "question": "In Slide 24, with 458px remaining and weights 1, 2, 1, what is the calculated width of item2?", "options": ["114.5px", "229px", "343.5px", "150px"], "answer": 1, "explanation": "Remaining = 712 - 254 = 458px. Sum of weights = 4. 1 weight unit = 114.5px. item2 has weight 2: 2 * 114.5 = 229px."}, {"id": 84, "lecture": "Module 3", "topic": "RelativeLayout Parent Rules", "question": "Which RelativeLayout attribute aligns the bottom of a child with the bottom of the parent?", "options": ["android:layout_alignParentBottom=\"true\"", "android:layout_gravity=\"bottom\"", "android:layout_below=\"parent\"", "android:layout_alignBottom=\"true\""], "answer": 0, "explanation": "Slide 27 lists parent relative rules, including `android:layout_alignParentBottom=\"true\"`."}, {"id": 85, "lecture": "Module 3", "topic": "RelativeLayout Sibling Rules", "question": "Which RelativeLayout attribute positions a view directly beneath another sibling view?", "options": ["android:layout_under", "android:layout_bottomOf", "android:layout_after", "android:layout_below"], "answer": 3, "explanation": "Slide 28 shows sibling positioning rules, including `android:layout_below=\"@id/...\"`."}, {"id": 86, "lecture": "Module 3", "topic": "Simulating LinearLayout", "question": "How can a vertical LinearLayout sequence be simulated in RelativeLayout (Slide 30)?", "options": ["By setting orientation=\"vertical\" on RelativeLayout", "By giving each child an equal layout_weight value", "By chaining each child with layout_below targeting the previous view", "By nesting FrameLayout inside each relative child"], "answer": 2, "explanation": "Slide 30 poses this question: vertical linear layout is simulated by chaining each view with `layout_below=\"@id/previous\"`."}, {"id": 87, "lecture": "Module 3", "topic": "Weight Simulation Feasibility", "question": "Can RelativeLayout simulate the proportional layout_weight stretching of LinearLayout?", "options": ["Yes, using layout_relativeWeight", "No, RelativeLayout cannot calculate proportional weights", "Yes, by setting layout_width=\"0px\"", "Yes, when combined with FrameLayout"], "answer": 1, "explanation": "Slide 30 poses this question: RelativeLayout cannot perform proportional dynamic weight calculation like LinearLayout."}, {"id": 88, "lecture": "Module 3", "topic": "Practical Work 6", "question": "In Practical Work 6, which ViewGroup is used to build WeatherFragment's layout?", "options": ["RelativeLayout", "FrameLayout", "TableLayout", "GridLayout"], "answer": 0, "explanation": "Slide 31 instructs: 'Produce the green area (WeatherFragment) with RelativeLayout'."}, {"id": 89, "lecture": "Module 3", "topic": "ScrollView Restriction", "question": "What structural rule governs child views placed directly inside a ScrollView container?", "options": ["Must contain at least two sibling views", "Cannot contain any nested TextView elements", "Must always have layout_width set to 0dp", "Can hold only a single direct child View or ViewGroup"], "answer": 3, "explanation": "ScrollView is a FrameLayout subclass that strictly requires exactly one direct child container."}, {"id": 90, "lecture": "Module 3", "topic": "RecyclerView Role", "question": "Which advanced ViewGroup listed in Slide 32 is the modern performant replacement for ListView?", "options": ["GridView", "GalleryView", "RecyclerView", "AbsListView"], "answer": 2, "explanation": "Slide 32 lists ViewGroup classes including RecyclerView, which enforces the ViewHolder pattern for performance."}, {"id": 91, "lecture": "Module 4", "topic": "ViewPager Interaction", "question": "What primary user gesture is utilized by ViewPager to navigate between pages?", "options": ["Vertical scroll", "Horizontal swipe", "Double tap", "Pinch to zoom"], "answer": 1, "explanation": "Slide 36 defines ViewPager as a tab-like container with 'Horizontal swipe gesture' and 'Page-by-page scrolling'."}, {"id": 92, "lecture": "Module 4", "topic": "Offscreen Page Limit", "question": "What does pager.setOffscreenPageLimit(n) accomplish in ViewPager?", "options": ["Keeps n idle pages on each side retained in memory", "Sets the total maximum number of tabs allowed", "Restricts swipe speed to prevent memory lag", "Limits the screen brightness when inactive"], "answer": 0, "explanation": "Slide 38 explains that fragments outside the offscreen limit have their view hierarchies destroyed to manage RAM."}, {"id": 93, "lecture": "Module 4", "topic": "PagerAdapter Subclass", "question": "Which adapter subclass is standardly used when ViewPager pages are backed by Fragment instances?", "options": ["ArrayAdapter", "CursorAdapter", "SimpleAdapter", "FragmentPagerAdapter"], "answer": 3, "explanation": "Slide 41 demonstrates extending FragmentPagerAdapter to supply fragments for each ViewPager page."}, {"id": 94, "lecture": "Module 4", "topic": "FragmentPagerAdapter Methods", "question": "Which method in FragmentPagerAdapter returns the Fragment instance for a specified page index?", "options": ["getView()", "createPage()", "getItem(int page)", "instantiateItem()"], "answer": 2, "explanation": "Slide 41 shows `@Override public Fragment getItem(int page)` which returns the Fragment for that page."}, {"id": 95, "lecture": "Module 4", "topic": "Tab Title Hook", "question": "Which method in FragmentPagerAdapter provides the string title displayed in the tab header?", "options": ["getTitle()", "getPageTitle(int page)", "getTabName()", "getHeaderText()"], "answer": 1, "explanation": "Slide 41 shows `@Override public CharSequence getPageTitle(int page)` which returns titles[page]."}, {"id": 96, "lecture": "Module 4", "topic": "ViewPager Header Library", "question": "Which component from the Android Support Design library acts as the official header for ViewPager?", "options": ["TabLayout", "PagerSlidingTabStrip", "ActionBarTab", "HeaderStrip"], "answer": 0, "explanation": "Slide 37 and Slide 44 introduce TabLayout from the Design library to replace PagerSlidingTabStrip."}, {"id": 97, "lecture": "Module 4", "topic": "TabLayout Binding", "question": "Which Java method binds a TabLayout to a ViewPager to automatically synchronize tab selection?", "options": ["tabLayout.attachPager(pager)", "tabLayout.bindAdapter(adapter)", "tabLayout.link(pager)", "tabLayout.setupWithViewPager(pager)"], "answer": 3, "explanation": "Slide 46 shows the setup code: `tabLayout.setupWithViewPager(pager)`."}, {"id": 98, "lecture": "Module 4", "topic": "Values Purpose", "question": "Why does Android centralize strings, colors, and dimensions into res/values XML files?", "options": ["To speed up APK decompression time", "To encrypt sensitive application credentials", "To provide a central point for constants, theming, and i18n", "To eliminate the need for Java compilation"], "answer": 2, "explanation": "Slides 50-52 state: 'Central point of all constants, Themeable, i18n (internationalization)'."}, {"id": 99, "lecture": "Module 4", "topic": "Localization Directory", "question": "In which folder should localized French string resources be placed?", "options": ["res/values/", "res/values-fr/", "res/strings-fr/", "res/languages-french/"], "answer": 1, "explanation": "Slide 53 shows the French localization path: `res/values-fr/strings.xml`."}, {"id": 100, "lecture": "Module 4", "topic": "Configuration Qualifiers", "question": "Which directory contains alternative integer values specifically applied in landscape orientation?", "options": ["res/values-land/", "res/values-horizontal/", "res/values-landscape/", "res/values-rotated/"], "answer": 0, "explanation": "Slide 54 demonstrates setting column_count = 2 in `res/values-land/integers.xml`."}, {"id": 101, "lecture": "Module 4", "topic": "Tablet Qualifiers", "question": "Which qualifier suffix targets large-screen tablet devices for dimensions and booleans?", "options": ["-tablet", "-desktop", "-wide", "-large"], "answer": 3, "explanation": "Slides 55-57 demonstrate using the `-large` configuration qualifier (e.g., `res/values-large/bools.xml`)."}, {"id": 102, "lecture": "Module 4", "topic": "Density Units", "question": "What is the physical pixel equivalent of 1 dp on a baseline mdpi (160 dpi) screen?", "options": ["0.5 pixel", "1.5 pixels", "1.0 pixel", "2.0 pixels"], "answer": 2, "explanation": "On a baseline mdpi (160 dpi) display, 1 dp equals exactly 1 physical pixel."}, {"id": 103, "lecture": "Module 4", "topic": "Retrieving Values in Java", "question": "Which method retrieves a localized string resource inside an Activity class?", "options": ["getResources().getRawString()", "getString(R.string.name)", "Context.parseString(id)", "R.string.name.toString()"], "answer": 1, "explanation": "Slide 59 shows accessing strings in Java: `String title = context.getString(R.string.refresh)`."}, {"id": 104, "lecture": "Module 4", "topic": "Drawable Categories", "question": "What are the two primary categories of drawables supported in Android (Slide 62)?", "options": ["XML drawables and Bitmap drawables", "Vector SVG and Raw Canvas", "PostScript and Raster layers", "OpenGL buffers and Bitmaps"], "answer": 0, "explanation": "Slide 62 categorizes drawables into: XML drawables (`res/drawable`) and Bitmap drawables (`res/drawable-*dpi`)."}, {"id": 105, "lecture": "Module 4", "topic": "Density Scaling Factor", "question": "What is the relative scaling factor of xxhdpi compared to baseline mdpi?", "options": ["1.5x", "2.0x", "4.0x", "3.0x"], "answer": 3, "explanation": "Density scaling factors: mdpi = 1.0x, hdpi = 1.5x, xhdpi = 2.0x, xxhdpi = 3.0x, xxxhdpi = 4.0x."}, {"id": 106, "lecture": "Module 4", "topic": "9-Patch File Extension", "question": "What specific file extension identifies a 9-Patch stretchable bitmap image?", "options": [".patch.png", ".nine.png", ".9.png", ".stretch.png"], "answer": 2, "explanation": "Slide 63 identifies 9-patch drawables by their specific extension: `*.9.png`."}, {"id": 107, "lecture": "Module 4", "topic": "9-Patch Stretch Border", "question": "Which border edges of a 9-Patch image define its stretchable area (Slide 64)?", "options": ["Bottom & Right edges", "Top & Left edges", "Top & Right edges", "Bottom & Left edges"], "answer": 1, "explanation": "Slide 64 states: 'Top & Left edges: Black pixels define stretching area'."}, {"id": 108, "lecture": "Module 4", "topic": "9-Patch Padding Border", "question": "Which border edges of a 9-Patch image define its internal content padding area (Slide 64)?", "options": ["Bottom & Right edges", "Top & Left edges", "All four border edges", "Center cross pixels"], "answer": 0, "explanation": "Slide 64 states: 'Bottom & Right edges: Black pixels define paddings'."}, {"id": 109, "lecture": "Module 4", "topic": "9-Patch Edge Transparency", "question": "What requirement applies to non-black pixels along the 1px guide border of a 9-Patch image?", "options": ["Must be solid white", "Must be 50% gray", "Can be any contrasting color", "Must be completely transparent"], "answer": 3, "explanation": "Slide 64 warns: 'other edge pixels need to be completely transparent' (alpha = 0)."}, {"id": 110, "lecture": "Module 4", "topic": "Raw Data Locations", "question": "Which two distinct locations in an Android project are used to store raw arbitrary files (Slide 69)?", "options": ["res/data/ and res/files/", "src/raw/ and assets/", "res/raw/ and assets/", "build/raw/ and data/"], "answer": 2, "explanation": "Slide 69 specifies: '2 different places: res/raw/ and assets/'."}, {"id": 111, "lecture": "Module 4", "topic": "res/raw Identity", "question": "How are files stored in res/raw/ identified and accessed in Java code?", "options": ["Via file path string using AssetManager", "Via integer resource ID in R.raw.<name>", "Via absolute filesystem URI on SD card", "Via SQLite cursor database table"], "answer": 1, "explanation": "Slide 70 explains that res/raw is a resource with an ID `R.raw.<name>`, conforming to resource naming rules."}, {"id": 112, "lecture": "Module 4", "topic": "assets Access", "question": "How are files stored in the assets/ directory accessed in Java code?", "options": ["Using Context.getAssets().open(\"filename\")", "Using R.assets.filename integer ID", "Via getResources().openRawResource()", "Via direct Java File(\"/assets/file\") constructor"], "answer": 0, "explanation": "Slide 72-73 notes: 'NO R.<assets>', access using filename with `Context.getAssets().open(...)`."}, {"id": 113, "lecture": "Module 4", "topic": "assets Subdirectories", "question": "Which raw data storage directory allows creating custom nested subdirectories?", "options": ["res/raw/", "Both res/raw and assets", "Neither supports subdirectories", "assets/"], "answer": 3, "explanation": "assets/ allows arbitrary subfolder hierarchies (e.g. `assets/music/rock/song.mp3`), whereas res/raw must be flat."}, {"id": 114, "lecture": "Module 4", "topic": "Stream Type", "question": "What standard Java I/O class is returned when opening raw files from res/raw or assets?", "options": ["java.io.BufferedReader", "java.io.FileReader", "java.io.InputStream", "java.nio.ByteBuffer"], "answer": 2, "explanation": "Slides 71 and 73 show: `InputStream is = context.getResources().openRawResource(...)` and `getAssets().open(...)`."}, {"id": 115, "lecture": "Module 4", "topic": "Menu Classifications", "question": "Which of the following represents the 3 standard menu types in Android (Slides 80-82)?", "options": ["Drawer Menu, Floating Menu, Tab Menu", "App Bar Menu, Context Menu, Popup Menu", "Static Menu, Dynamic Menu, Submenu", "Action Menu, Modal Menu, Dialog Menu"], "answer": 1, "explanation": "Slides 80-82 list the three major menu categories: App Bar, Context Menu, and Popup Menu."}, {"id": 116, "lecture": "Module 4", "topic": "ToolBar Advantage", "question": "Why did Google replace ActionBar with ToolBar in the Support Library (Slide 85)?", "options": ["To allow flexible layout positioning and backward compatibility", "To remove action item buttons from the top bar", "To disable Material Design styling on older devices", "To eliminate the need for XML menu inflation"], "answer": 0, "explanation": "Slide 85 highlights that ToolBar is a regular ViewGroup offering best compatibility and Material Design support."}, {"id": 117, "lecture": "Module 4", "topic": "Menu XML Location", "question": "In which directory should App Bar menu resource definitions be saved?", "options": ["res/layout/", "res/values/", "res/xml/", "res/menu/"], "answer": 3, "explanation": "Slide 90 specifies that menu resources are defined in `res/menu/<name>.xml`."}, {"id": 118, "lecture": "Module 4", "topic": "showAsAction Attribute", "question": "Which showAsAction value forces a menu item to always reside inside the 3-dot overflow popup menu?", "options": ["always", "ifRoom", "never", "withText"], "answer": 2, "explanation": "Slide 92 states: `never: always in an overflow popup menu`."}, {"id": 119, "lecture": "Module 4", "topic": "Inflating Menu", "question": "Which Activity callback method must be overridden to inflate an XML menu onto the App Bar?", "options": ["onCreate()", "onCreateOptionsMenu()", "onPrepareOptionsMenu()", "onOptionsItemSelected()"], "answer": 1, "explanation": "Slide 97 shows: `@Override public boolean onCreateOptionsMenu(Menu menu) { getMenuInflater().inflate(...); }`."}, {"id": 120, "lecture": "Module 4", "topic": "Handling Menu Clicks", "question": "Which Activity callback method responds to user clicks on App Bar actions and overflow items?", "options": ["onOptionsItemSelected()", "onMenuItemClick()", "onActionClick()", "onMenuSelected()"], "answer": 0, "explanation": "Slide 98 shows: `@Override public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) ... }`."}, {"id": 121, "lecture": "Module 5", "topic": "Threading Benefits", "question": "Which benefit is listed in Slide 6 as a primary motivation for multi-threading in mobile apps?", "options": ["Elimination of garbage collection", "Reduction of APK download size", "Automatic SQLite table indexing", "Better CPU utilization and responsiveness"], "answer": 3, "explanation": "Slide 6 lists: 'Better CPU utilization, Separation of tasks, Responsiveness'."}, {"id": 122, "lecture": "Module 5", "topic": "Threading Drawbacks", "question": "What is identified in Slide 7 as a major disadvantage of multithreaded programming?", "options": ["Disables hardware sensors", "Increases touch latency intentionally", "Architecture complication and synchronization issues", "Prevents compilation to DEX bytecode"], "answer": 2, "explanation": "Slide 7 identifies 'Complication, Architecture, Load balancing' as challenges of threading."}, {"id": 123, "lecture": "Module 5", "topic": "Main Thread Duties", "question": "What are the two core responsibilities of the Android Main Thread (Slide 9)?", "options": ["Database compaction and file compression", "Drawing widgets and dispatching user inputs", "Network packet routing and DNS lookup", "Bytecode compilation and APK verification"], "answer": 1, "explanation": "Slide 9 lists Main thread responsibilities: 'Drawing widgets, Dispatching user inputs'."}, {"id": 124, "lecture": "Module 5", "topic": "Widget Thread Safety", "question": "Is the Android UI widget toolkit thread-safe according to Slide 9?", "options": ["No, the widget toolkit is not thread-safe", "Yes, all Views use synchronized locks", "Yes, thread-safe from Android 5.0 onward", "Only thread-safe when running on multi-core CPUs"], "answer": 0, "explanation": "Slide 9 explicitly states: 'Widget toolkit is not thread-safe'."}, {"id": 125, "lecture": "Module 5", "topic": "Slow Operations", "question": "Which operations should NEVER be run on the Main Thread according to Slide 10?", "options": ["Setting text color on a TextView", "Binding an adapter to a ViewPager", "Registering an OnClickListener callback", "Network access, heavy calculations, image processing"], "answer": 3, "explanation": "Slide 10 instructs: 'Don't do slow things on main thread: Calculation, Bitcoin mining, Image processing, Network access'."}, {"id": 126, "lecture": "Module 5", "topic": "Thread Violation Exception", "question": "What crash exception occurs when a worker thread directly modifies a View (Slide 11)?", "options": ["IllegalStateException", "ConcurrentModificationException", "CalledFromWrongThreadException", "UnsupportedOperationException"], "answer": 2, "explanation": "Slide 11 quotes: `android.view.ViewRootImpl$CalledFromWrongThreadException: Only the original thread that created a view hierarchy can touch its views.`"}, {"id": 127, "lecture": "Module 5", "topic": "ANR Dialogue", "question": "What system error occurs when an application blocks the Main Thread for approximately 5 seconds?", "options": ["OOM (Out Of Memory)", "ANR (Application Not Responding)", "DeadlockException", "SIGSEGV Signal"], "answer": 1, "explanation": "Blocking the UI thread prevents input event dispatching; after 5 seconds the system shows the ANR dialog."}, {"id": 128, "lecture": "Module 5", "topic": "Handler Role", "question": "What is the primary role of the Handler class according to Slide 14?", "options": ["To communicate and dispatch messages to the Main Thread", "To encrypt network socket payloads", "To allocate native memory for bitmaps", "To manage Activity backstack transitions"], "answer": 0, "explanation": "Slide 14 defines Handler as 'A way to communicate with main thread', executing handleMessage() on the main thread."}, {"id": 129, "lecture": "Module 5", "topic": "Looper Binding", "question": "How is a Handler bound to the Main Thread's message queue in Slide 16?", "options": ["new Handler()", "new Handler(Thread.currentThread())", "Looper.bindHandler()", "new Handler(Looper.getMainLooper())"], "answer": 3, "explanation": "Slide 16 shows: `Handler handler = new Handler(Looper.getMainLooper()) { ... }`."}, {"id": 130, "lecture": "Module 5", "topic": "Message Payload", "question": "What data structure is standardly attached to a Message via msg.setData() in Slide 17?", "options": ["HashMap<String, Object>", "JSONString", "Bundle", "ArrayList<Byte>"], "answer": 2, "explanation": "Slide 17 shows: `Bundle bundle = new Bundle(); bundle.putString(...); msg.setData(bundle); handler.sendMessage(msg);`."}, {"id": 131, "lecture": "Module 5", "topic": "Message Execution Thread", "question": "On which thread does handler.handleMessage(Message msg) execute?", "options": ["On the worker thread that called sendMessage", "On the Main Thread", "On a random thread from the thread pool", "On the Linux kernel daemon thread"], "answer": 1, "explanation": "Slide 14 and Slide 16 state: 'Handler.handleMessage() is executed on main thread'."}, {"id": 132, "lecture": "Module 5", "topic": "Practical Work 13", "question": "In Practical Work 13, how is a long network request simulated inside the worker thread?", "options": ["Thread.sleep(5000)", "System.gc()", "wait(10000)", "Looper.loop()"], "answer": 0, "explanation": "Slide 18 and Slide 19 show using `Thread.sleep(5000)` to simulate a 5-second network request before sending a message."}, {"id": 133, "lecture": "Module 5", "topic": "AsyncTask Definition", "question": "What does AsyncTask encapsulate according to Slide 21?", "options": ["SQLite database and Cursor", "Activity and Fragment transactions", "HttpURLConnection and JSON parser", "Thread and Handler with progress reporting"], "answer": 3, "explanation": "Slide 21 states: 'An encapsulation of Handler and Thread. Also allows the worker thread to report work progress to the UI'."}, {"id": 134, "lecture": "Module 5", "topic": "AsyncTask Generics", "question": "What are the 3 generic type parameters in AsyncTask<Params, Progress, Result>?", "options": ["Input, Output, Error", "Context, Runnable, Callback", "Params, Progress, Result", "Request, Response, Status"], "answer": 2, "explanation": "Slide 22 identifies the 3 Generic Types: `AsyncTask<Params, Progress, Result>`."}, {"id": 135, "lecture": "Module 5", "topic": "Params Meaning", "question": "What is the purpose of the first generic type (Params) in AsyncTask?", "options": ["The data type of percentage progress", "The parameter type passed to doInBackground", "The return type delivered to onPostExecute", "The error exception type thrown"], "answer": 1, "explanation": "Slide 22 defines: 'Params: param type to pass to the worker thread'."}, {"id": 136, "lecture": "Module 5", "topic": "Progress Meaning", "question": "What is the purpose of the second generic type (Progress) in AsyncTask?", "options": ["The type used to report progress back to the UI", "The parameter type passed to execute()", "The final result object type", "The database cursor column type"], "answer": 0, "explanation": "Slide 22 defines: 'Progress: type to report progress back'."}, {"id": 137, "lecture": "Module 5", "topic": "Result Meaning", "question": "What is the purpose of the third generic type (Result) in AsyncTask?", "options": ["The thread priority integer value", "The URL string passed at task start", "The timeout duration in milliseconds", "The result type delivered upon completion"], "answer": 3, "explanation": "Slide 22 defines: 'Result: result type to be delivered'."}, {"id": 138, "lecture": "Module 5", "topic": "Image Download Generics", "question": "In Slide 27, what generic types are used for downloading an image with percentage reporting?", "options": ["AsyncTask<Integer, String, Bitmap>", "AsyncTask<URL, Float, ImageView>", "AsyncTask<String, Integer, Bitmap>", "AsyncTask<String, Void, Void>"], "answer": 2, "explanation": "Slide 27 specifies `AsyncTask<String, Integer, Bitmap>`: 1st param URL (String), 2nd progress (Integer), 3rd bitmap (Bitmap)."}, {"id": 139, "lecture": "Module 5", "topic": "Mandatory Method", "question": "Which method in AsyncTask is strictly REQUIRED to be overridden?", "options": ["onPreExecute()", "doInBackground()", "onProgressUpdate()", "onPostExecute()"], "answer": 1, "explanation": "Slide 24 marks `[required] doInBackground(): do the real work`, while the other methods are marked as optional."}, {"id": 140, "lecture": "Module 5", "topic": "doInBackground Thread", "question": "On which thread does the doInBackground() method of AsyncTask execute?", "options": ["On a background Worker Thread", "On the Main (UI) Thread", "On the GPU render thread", "On the Android OS SystemServer thread"], "answer": 0, "explanation": "Slide 24 and Slide 41 state that doInBackground is where the worker thread's code is executed."}, {"id": 141, "lecture": "Module 5", "topic": "UI Updates in doInBackground", "question": "Can doInBackground() directly call view.setText() or view.setImageBitmap()?", "options": ["Yes, AsyncTask makes all calls thread-safe", "Yes, if called within a synchronized block", "Only on devices running Android 7.0 or higher", "No, it runs on a worker thread and will crash"], "answer": 3, "explanation": "Because doInBackground runs on a worker thread, attempting to touch UI views will trigger CalledFromWrongThreadException."}, {"id": 142, "lecture": "Module 5", "topic": "onPreExecute Purpose", "question": "What is the primary role of onPreExecute() in AsyncTask (Slide 24)?", "options": ["To perform socket communication", "To decode byte streams into Bitmaps", "To set up UI state before the background task runs", "To terminate running worker threads"], "answer": 2, "explanation": "Slide 24 and Slide 41 indicate onPreExecute() runs on the Main Thread for UI preparation (e.g. showing a progress bar)."}, {"id": 143, "lecture": "Module 5", "topic": "Progress Trigger", "question": "What method must doInBackground() call to invoke onProgressUpdate() on the Main Thread?", "options": ["updateProgress()", "publishProgress()", "sendProgress()", "notifyUI()"], "answer": 1, "explanation": "Calling `publishProgress(values)` from doInBackground posts an update to onProgressUpdate() on the Main Thread."}, {"id": 144, "lecture": "Module 5", "topic": "onPostExecute Role", "question": "Where does onPostExecute(Result result) execute and what does it do (Slide 41)?", "options": ["On Main Thread to deliver results to UI views", "On worker thread to clean up sockets", "On Binder IPC thread to serialize data", "On database thread to write cache entries"], "answer": 0, "explanation": "Slide 41 states: 'This method is called in the main thread. After doInBackground returns data, we set it to an ImageView'."}, {"id": 145, "lecture": "Module 5", "topic": "Triggering Execution", "question": "How is an instantiated AsyncTask started in Java code (Slide 41)?", "options": ["task.start()", "task.run()", "task.launch()", "task.execute(params)"], "answer": 3, "explanation": "Slide 41 demonstrates: `task.execute(\"http://ict.usth.edu.vn/.../usthlogo.png\");`."}, {"id": 146, "lecture": "Module 5", "topic": "Practical Work 14", "question": "In Practical Work 14, how is network delay simulated and where is the Toast shown?", "options": ["sleep() in onPreExecute, Toast in doInBackground", "sleep() in onPostExecute, Toast in onPreExecute", "sleep() in doInBackground, Toast in onPostExecute", "sleep() on Main Thread, Toast on worker thread"], "answer": 2, "explanation": "Slide 42 hints: 'sleep() in doInBackground, Toast in onPostExecute()'."}, {"id": 147, "lecture": "Module 5", "topic": "UI Responsiveness Rule", "question": "What is the consequence of calling Thread.sleep(5000) directly inside Activity.onCreate()?", "options": ["The app runs 5000 milliseconds faster", "The app freezes and may trigger an ANR dialog", "The phone reboots into recovery mode", "The compiler optimizes the sleep call away"], "answer": 1, "explanation": "Calling sleep on the Main Thread blocks UI rendering and input processing, causing the app to freeze and risk ANR."}, {"id": 148, "lecture": "Module 5", "topic": "Variable Arguments", "question": "What Java syntax feature is used in doInBackground(String... params)?", "options": ["Varargs (variable-length arguments)", "Type erasure", "Polymorphic generics", "Dynamic method dispatch"], "answer": 0, "explanation": "`String... params` is Java varargs syntax, allowing zero or more string arguments to be passed as an array."}, {"id": 149, "lecture": "Module 5", "topic": "Bitmap Decoding", "question": "Which utility class decodes an InputStream into a Bitmap object (Slide 27 & 41)?", "options": ["ImageReader", "CanvasDecoder", "DrawableUtil", "BitmapFactory"], "answer": 3, "explanation": "Slide 41 and Slide 27 (in Networking p1) demonstrate: `Bitmap bitmap = BitmapFactory.decodeStream(is);`."}, {"id": 150, "lecture": "Module 5", "topic": "Thread Architecture Rule", "question": "Why can an Activity safely update UI elements inside an OnClickListener callback?", "options": ["Because OnClickListener runs in an asynchronous daemon thread", "Because Android automatically locks the graphics hardware", "Because click events are dispatched and executed on the Main Thread", "Because Buttons do not belong to the View hierarchy"], "answer": 2, "explanation": "User interaction events (clicks, touches) are dispatched by the system directly on the Main (UI) Thread."}];
+
+    // State
+    let activeQuestions = [];
+    let currentIndex = 0;
+    let userAnswers = {}; // questionId -> selectedIndex
+    let secondsElapsed = 0;
+    let timerId = null;
+
+    // Elements
+    const modeSelect = document.getElementById("modeSelect");
+    const questionContent = document.getElementById("questionContent");
+    const optionsGroup = document.getElementById("optionsGroup");
+    const questionCounterLabel = document.getElementById("questionCounterLabel");
+    const badgeLecture = document.getElementById("badgeLecture");
+    const badgeTopic = document.getElementById("badgeTopic");
+    const explanationPanel = document.getElementById("explanationPanel");
+    const explanationContent = document.getElementById("explanationContent");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const unansweredBtn = document.getElementById("unansweredBtn");
+    const paletteContainer = document.getElementById("paletteContainer");
+    const progressFill = document.getElementById("progressFill");
+    const answeredRatio = document.getElementById("answeredRatio");
+    const scoreValue = document.getElementById("scoreValue");
+    const totalQuestionsValue = document.getElementById("totalQuestionsValue");
+    const scorePercentValue = document.getElementById("scorePercentValue");
+    const timerValue = document.getElementById("timerValue");
+    const shuffleBtn = document.getElementById("shuffleBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const statsBtn = document.getElementById("statsBtn");
+    const finishBtn = document.getElementById("finishBtn");
+    const statsModal = document.getElementById("statsModal");
+    const closeModalCross = document.getElementById("closeModalCross");
+    const modalCloseBtn = document.getElementById("modalCloseBtn");
+    const reviewWrongBtn = document.getElementById("reviewWrongBtn");
+
+    function startTimer() {
+      if (timerId) clearInterval(timerId);
+      secondsElapsed = 0;
+      timerId = setInterval(() => {
+        secondsElapsed++;
+        const mins = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
+        const secs = String(secondsElapsed % 60).padStart(2, '0');
+        timerValue.textContent = mins + ":" + secs;
+      }, 1000);
+    }
+
+    function initMode(mode) {
+      userAnswers = {};
+      startTimer();
+
+      const m1 = RAW_QUESTIONS.filter(q => q.lecture === "Module 1");
+      const m2 = RAW_QUESTIONS.filter(q => q.lecture === "Module 2");
+      const m3 = RAW_QUESTIONS.filter(q => q.lecture === "Module 3");
+      const m4 = RAW_QUESTIONS.filter(q => q.lecture === "Module 4");
+      const m5 = RAW_QUESTIONS.filter(q => q.lecture === "Module 5");
+
+      if (mode === "exam1") {
+        activeQuestions = [...m1.slice(0, 10), ...m2.slice(0, 10), ...m3.slice(0, 10), ...m4.slice(0, 10), ...m5.slice(0, 10)];
+      } else if (mode === "exam2") {
+        activeQuestions = [...m1.slice(10, 20), ...m2.slice(10, 20), ...m3.slice(10, 20), ...m4.slice(10, 20), ...m5.slice(10, 20)];
+      } else if (mode === "exam3") {
+        activeQuestions = [...m1.slice(20, 30), ...m2.slice(20, 30), ...m3.slice(20, 30), ...m4.slice(20, 30), ...m5.slice(20, 30)];
+      } else if (mode === "topic1") {
+        activeQuestions = [...m1];
+      } else if (mode === "topic2") {
+        activeQuestions = [...m2];
+      } else if (mode === "topic3") {
+        activeQuestions = [...m3];
+      } else if (mode === "topic4") {
+        activeQuestions = [...m4];
+      } else if (mode === "topic5") {
+        activeQuestions = [...m5];
+      } else if (mode === "all") {
+        activeQuestions = [...RAW_QUESTIONS];
+      }
+
+      currentIndex = 0;
+      totalQuestionsValue.textContent = activeQuestions.length;
+      renderPalette();
+      renderQuestion();
+      updateScoreMetrics();
+    }
+
+    function renderPalette() {
+      paletteContainer.innerHTML = "";
+      activeQuestions.forEach((q, idx) => {
+        const item = document.createElement("button");
+        item.className = "palette-item";
+        item.id = "p-item-" + idx;
+        item.textContent = idx + 1;
+        item.addEventListener("click", () => {
+          currentIndex = idx;
+          renderQuestion();
+        });
+        paletteContainer.appendChild(item);
+      });
+    }
+
+    function renderQuestion() {
+      const q = activeQuestions[currentIndex];
+      questionCounterLabel.textContent = "Question " + (currentIndex + 1) + " of " + activeQuestions.length;
+      badgeLecture.textContent = q.lecture;
+      badgeTopic.textContent = q.topic;
+      questionContent.textContent = q.question;
+
+      // Update palette active status
+      document.querySelectorAll(".palette-item").forEach((btn, idx) => {
+        btn.classList.toggle("active", idx === currentIndex);
+      });
+
+      // Render options safely using textContent
+      optionsGroup.innerHTML = "";
+      const letters = ["A", "B", "C", "D"];
+      const isAnswered = userAnswers.hasOwnProperty(q.id);
+      const chosenIdx = userAnswers[q.id];
+
+      q.options.forEach((optText, optIdx) => {
+        const card = document.createElement("button");
+        card.className = "option-card";
+        if (isAnswered) card.classList.add("locked");
+
+        if (isAnswered) {
+          if (optIdx === q.answer) {
+            card.classList.add("correct");
+          } else if (optIdx === chosenIdx) {
+            card.classList.add("incorrect");
+          }
+        }
+
+        const idxSpan = document.createElement("span");
+        idxSpan.className = "option-index";
+        idxSpan.textContent = letters[optIdx];
+
+        const textSpan = document.createElement("span");
+        textSpan.className = "option-content";
+        textSpan.textContent = optText;
+
+        card.appendChild(idxSpan);
+        card.appendChild(textSpan);
+
+        card.addEventListener("click", () => {
+          if (userAnswers.hasOwnProperty(q.id)) return;
+          selectAnswer(q.id, optIdx);
+        });
+
+        optionsGroup.appendChild(card);
+      });
+
+      // Explanation
+      if (isAnswered) {
+        explanationContent.textContent = q.explanation;
+        explanationPanel.classList.add("show");
+      } else {
+        explanationPanel.classList.remove("show");
+      }
+
+      // Prev/Next buttons
+      prevBtn.disabled = (currentIndex === 0);
+      nextBtn.disabled = (currentIndex === activeQuestions.length - 1);
+    }
+
+    function selectAnswer(qId, selectedIdx) {
+      userAnswers[qId] = selectedIdx;
+      const q = activeQuestions[currentIndex];
+
+      const pBtn = document.getElementById("p-item-" + currentIndex);
+      if (pBtn) {
+        if (selectedIdx === q.answer) {
+          pBtn.classList.add("correct");
+        } else {
+          pBtn.classList.add("incorrect");
+        }
+      }
+
+      renderQuestion();
+      updateScoreMetrics();
+    }
+
+    function updateScoreMetrics() {
+      let correct = 0;
+      let answeredCount = 0;
+
+      activeQuestions.forEach(q => {
+        if (userAnswers.hasOwnProperty(q.id)) {
+          answeredCount++;
+          if (userAnswers[q.id] === q.answer) correct++;
+        }
+      });
+
+      scoreValue.textContent = correct;
+      const pct = activeQuestions.length > 0 ? Math.round((correct / activeQuestions.length) * 100) : 0;
+      scorePercentValue.textContent = pct + "%";
+
+      const answeredPct = activeQuestions.length > 0 ? (answeredCount / activeQuestions.length) * 100 : 0;
+      progressFill.style.width = answeredPct + "%";
+      answeredRatio.textContent = answeredCount + "/" + activeQuestions.length;
+    }
+
+    function nextUnanswered() {
+      const nextIdx = activeQuestions.findIndex((q, i) => i > currentIndex && !userAnswers.hasOwnProperty(q.id));
+      if (nextIdx !== -1) {
+        currentIndex = nextIdx;
+        renderQuestion();
+        return;
+      }
+      const wrapIdx = activeQuestions.findIndex(q => !userAnswers.hasOwnProperty(q.id));
+      if (wrapIdx !== -1) {
+        currentIndex = wrapIdx;
+        renderQuestion();
+      } else {
+        alert("All questions in this exam set have been answered.");
+      }
+    }
+
+    function showModal() {
+      let correct = 0;
+      let m1Cor = 0, m1Tot = 0;
+      let m2Cor = 0, m2Tot = 0;
+      let m3Cor = 0, m3Tot = 0;
+      let m4Cor = 0, m4Tot = 0;
+      let m5Cor = 0, m5Tot = 0;
+
+      activeQuestions.forEach(q => {
+        const ans = userAnswers[q.id];
+        const isCor = (ans === q.answer);
+        if (isCor) correct++;
+
+        if (q.lecture === "Module 1") {
+          m1Tot++;
+          if (isCor) m1Cor++;
+        } else if (q.lecture === "Module 2") {
+          m2Tot++;
+          if (isCor) m2Cor++;
+        } else if (q.lecture === "Module 3") {
+          m3Tot++;
+          if (isCor) m3Cor++;
+        } else if (q.lecture === "Module 4") {
+          m4Tot++;
+          if (isCor) m4Cor++;
+        } else if (q.lecture === "Module 5") {
+          m5Tot++;
+          if (isCor) m5Cor++;
+        }
+      });
+
+      const total = activeQuestions.length;
+      const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
+
+      document.getElementById("modalFinalScore").textContent = correct + " / " + total;
+      document.getElementById("modalAccuracy").textContent = accuracy + "%";
+
+      let grade = "F";
+      if (accuracy >= 85) grade = "A";
+      else if (accuracy >= 70) grade = "B";
+      else if (accuracy >= 55) grade = "C";
+      else if (accuracy >= 40) grade = "D";
+      document.getElementById("modalGrade").textContent = grade;
+
+      const p1 = m1Tot > 0 ? Math.round((m1Cor / m1Tot) * 100) : 0;
+      document.getElementById("txtMod1").textContent = p1 + "% (" + m1Cor + "/" + m1Tot + ")";
+      document.getElementById("barMod1").style.width = p1 + "%";
+
+      const p2 = m2Tot > 0 ? Math.round((m2Cor / m2Tot) * 100) : 0;
+      document.getElementById("txtMod2").textContent = p2 + "% (" + m2Cor + "/" + m2Tot + ")";
+      document.getElementById("barMod2").style.width = p2 + "%";
+
+      const p3 = m3Tot > 0 ? Math.round((m3Cor / m3Tot) * 100) : 0;
+      document.getElementById("txtMod3").textContent = p3 + "% (" + m3Cor + "/" + m3Tot + ")";
+      document.getElementById("barMod3").style.width = p3 + "%";
+
+      const p4 = m4Tot > 0 ? Math.round((m4Cor / m4Tot) * 100) : 0;
+      document.getElementById("txtMod4").textContent = p4 + "% (" + m4Cor + "/" + m4Tot + ")";
+      document.getElementById("barMod4").style.width = p4 + "%";
+
+      const p5 = m5Tot > 0 ? Math.round((m5Cor / m5Tot) * 100) : 0;
+      document.getElementById("txtMod5").textContent = p5 + "% (" + m5Cor + "/" + m5Tot + ")";
+      document.getElementById("barMod5").style.width = p5 + "%";
+
+      let advice = "Solid performance across all topics.";
+      if (p1 < 70) advice = "Review Module 1: Focus on Dalvik JIT vs ART AOT compilation, Linux UID sandboxing, and UI overdraw optimization.";
+      else if (p2 < 70) advice = "Review Module 2: Focus on Activity lifecycle (onPause vs onStop), onSaveInstanceState, Context vs Application singleton, and Fragment transactions.";
+      else if (p3 < 70) advice = "Review Module 3: Focus on layout_weight formula calculations, RelativeLayout sibling alignment, and ImageView scaleType behaviors.";
+      else if (p4 < 70) advice = "Review Module 4: Focus on ViewPager offscreen limit, 9-patch border rules (stretch vs padding), res/raw vs assets differences, and ToolBar menu inflation.";
+      else if (p5 < 70) advice = "Review Module 5: Focus on the 2 Golden Threading Rules, ANR triggers, CalledFromWrongThreadException, and AsyncTask lifecycle callbacks.";
+      document.getElementById("adviceText").textContent = advice;
+
+      statsModal.classList.add("open");
+    }
+
+    function reviewWrong() {
+      const wrongList = activeQuestions.filter(q => userAnswers.hasOwnProperty(q.id) && userAnswers[q.id] !== q.answer);
+      if (wrongList.length === 0) {
+        alert("No incorrect answers to review.");
+        return;
+      }
+      activeQuestions = wrongList;
+      currentIndex = 0;
+      totalQuestionsValue.textContent = activeQuestions.length;
+      renderPalette();
+      activeQuestions.forEach((q, idx) => {
+        const pBtn = document.getElementById("p-item-" + idx);
+        if (pBtn) pBtn.classList.add("incorrect");
+      });
+      renderQuestion();
+      updateScoreMetrics();
+      statsModal.classList.remove("open");
+    }
+
+    // Event Listeners
+    modeSelect.addEventListener("change", (e) => {
+      initMode(e.target.value);
+    });
+
+    prevBtn.addEventListener("click", () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderQuestion();
+      }
+    });
+
+    nextBtn.addEventListener("click", () => {
+      if (currentIndex < activeQuestions.length - 1) {
+        currentIndex++;
+        renderQuestion();
+      }
+    });
+
+    unansweredBtn.addEventListener("click", nextUnanswered);
+
+    shuffleBtn.addEventListener("click", () => {
+      for (let i = activeQuestions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [activeQuestions[i], activeQuestions[j]] = [activeQuestions[j], activeQuestions[i]];
+      }
+      currentIndex = 0;
+      userAnswers = {};
+      renderPalette();
+      renderQuestion();
+      updateScoreMetrics();
+    });
+
+    resetBtn.addEventListener("click", () => {
+      userAnswers = {};
+      currentIndex = 0;
+      startTimer();
+      renderPalette();
+      renderQuestion();
+      updateScoreMetrics();
+    });
+
+    statsBtn.addEventListener("click", showModal);
+    finishBtn.addEventListener("click", showModal);
+
+    closeModalCross.addEventListener("click", () => {
+      statsModal.classList.remove("open");
+    });
+
+    modalCloseBtn.addEventListener("click", () => {
+      statsModal.classList.remove("open");
+    });
+
+    reviewWrongBtn.addEventListener("click", reviewWrong);
+
+    // Keyboard Navigation
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") {
+        if (currentIndex < activeQuestions.length - 1) {
+          currentIndex++;
+          renderQuestion();
+        }
+      } else if (e.key === "ArrowLeft") {
+        if (currentIndex > 0) {
+          currentIndex--;
+          renderQuestion();
+        }
+      }
+    });
+
+    // Start with Exam 1
+    initMode("exam1");
+  </script>
+
+
+</body></html>

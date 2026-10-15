@@ -1,68 +1,6 @@
 // Complete Question Bank & Flashcards from USTH Mobile Dev Lectures 1-5
 const QUIZ_DATA = {
   questions: [
-    // Lecture 1
-    {
-      id: 1,
-      lecture: 1,
-      lectureTitle: "Course Intro & Project Assessment",
-      question: "According to the course syllabus, what is the weight of the Final Project in the total course grade?",
-      options: [
-        "10%",
-        "20%",
-        "50%",
-        "40%"
-      ],
-      answer: 2,
-      explanation: "Assessment breakdown: Attendance 10%, Midterm project 20%, Final project 50%, Oral Exam 20% (Total: 100%).",
-      slideRef: "Lecture 1, Slide 4"
-    },
-    {
-      id: 2,
-      lecture: 1,
-      lectureTitle: "Course Intro & Project Assessment",
-      question: "In the project presentation requirement, what specific optimization metric must students present?",
-      options: [
-        "Network packet loss rate",
-        "UI overdraw status",
-        "Battery discharge curve in mAh",
-        "Database query latency"
-      ],
-      answer: 1,
-      explanation: "Lecture 1 specifies that under Optimization in the project presentation, students must show their 'UI overdraw status'.",
-      slideRef: "Lecture 1, Slide 16"
-    },
-    {
-      id: 3,
-      lecture: 1,
-      lectureTitle: "Course Intro & Project Assessment",
-      question: "Which two reference books are officially recommended for the course?",
-      options: [
-        "Clean Code and Refactoring",
-        "Head First Android Development & Android Programming: The Big Nerd Ranch Guide (2nd ed)",
-        "Design Patterns & Java Concurrency in Practice",
-        "Learning React Native & Flutter in Action"
-      ],
-      answer: 1,
-      explanation: "Recommended: Head First Android Development (O'Reilly, 2015) and Android Programming: The Big Nerd Ranch Guide 2nd ed (2015).",
-      slideRef: "Lecture 1, Slide 19"
-    },
-    {
-      id: 4,
-      lecture: 1,
-      lectureTitle: "Course Intro & Project Assessment",
-      question: "How is the total 4 ECTS course volume partitioned across lecture, practical work, and project?",
-      options: [
-        "24h Lecture / 10h Practical work / 6h Project",
-        "20h Lecture / 15h Practical work / 5h Project",
-        "30h Lecture / 10h Practical work / 0h Project",
-        "15h Lecture / 15h Practical work / 10h Project"
-      ],
-      answer: 0,
-      explanation: "Format: 4 ECTS = 40 hours total, partitioned into 24h Lecture, 10h Practical work, and 6h Project.",
-      slideRef: "Lecture 1, Slide 4"
-    },
-
     // Lecture 2
     {
       id: 5,

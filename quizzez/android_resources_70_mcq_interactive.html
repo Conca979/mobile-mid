@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Android Resources — 70 MCQs</title>
+<style>
+:root { color-scheme: light; --ink:#172033; --muted:#667085; --line:#d8deea; --panel:#fff; --bg:#f3f6fb; --accent:#315bd6; }
+* { box-sizing:border-box; }
+body { margin:0; font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; color:var(--ink); background:var(--bg); }
+header { background:#172554; color:white; padding:24px 18px; }
+header .wrap, main { max-width:900px; margin:auto; }
+h1 { margin:0 0 5px; font-size:clamp(1.45rem,4vw,2rem); }
+header p { margin:0; color:#dbeafe; }
+main { padding:20px 14px 42px; }
+.topline { display:flex; gap:12px; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-bottom:12px; }
+.progress { height:9px; background:#dfe5f1; border-radius:99px; overflow:hidden; margin:10px 0 18px; }
+#bar { height:100%; width:0; background:var(--accent); transition:width .2s; }
+.card { background:var(--panel); border:1px solid var(--line); border-radius:15px; padding:19px; margin:14px 0; box-shadow:0 3px 12px #0f172a0a; }
+.qhead { display:flex; justify-content:space-between; gap:12px; align-items:start; }
+.qnum { color:var(--accent); font-weight:750; white-space:nowrap; }
+.slide { color:var(--muted); font-size:.88rem; white-space:nowrap; }
+.question { font-weight:700; font-size:1.06rem; margin:10px 0 14px; }
+.options { display:grid; gap:9px; }
+.option { width:100%; text-align:left; padding:11px 13px; border:1px solid #cbd5e1; border-radius:10px; background:white; color:var(--ink); cursor:pointer; font:inherit; transition:.12s; }
+.option:hover:not(:disabled) { border-color:var(--accent); background:#f5f8ff; }
+.option:focus-visible, button:focus-visible { outline:3px solid #93c5fd; outline-offset:2px; }
+.option:disabled { cursor:default; }
+.option.correct { border-color:#16803d; background:#eaf8ef; }
+.option.wrong { border-color:#c2413b; background:#fff0ef; }
+.feedback { display:none; margin-top:13px; padding:12px 13px; border-radius:10px; background:#f1f5f9; }
+.feedback.show { display:block; }
+.feedback strong { display:block; margin-bottom:3px; }
+.controls { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:18px; flex-wrap:wrap; }
+button.nav { border:0; border-radius:10px; padding:11px 17px; background:var(--accent); color:white; font:inherit; font-weight:700; cursor:pointer; }
+button.nav:disabled { background:#aab4c8; cursor:not-allowed; }
+button.secondary { background:#e2e8f0; color:#172033; }
+#status { color:var(--muted); font-size:.93rem; }
+.summary { display:none; }
+.summary.show { display:block; }
+.small { font-size:.92rem; color:var(--muted); }
+@media (max-width:520px) { .card{padding:15px;} .qhead{display:block;} .slide{display:block;margin-top:3px;} }
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<h1>Android Resources — 70 MCQs</h1>
+<p>Based on the supplied lecture slides · English questions · 5 questions per round</p>
+</div></header>
+<main>
+<div class="topline">
+<div><strong id="roundTitle">Round 1 of 14</strong><div class="small">Choose an answer to reveal the explanation and slide reference.</div></div>
+<div id="score">Score: 0 / 0 answered</div>
+</div>
+<div class="progress"><div id="bar"></div></div>
+<div id="quiz"></div>
+<div class="controls">
+<button class="nav secondary" id="prev" type="button">← Previous round</button>
+<span id="status">Answer all 5 questions to continue.</span>
+<button class="nav" id="next" type="button">Next round →</button>
+</div>
+<section class="card summary" id="summary">
+<h2>Quiz complete!</h2>
+<p id="finalScore"></p>
+<button class="nav" id="restart" type="button">Restart quiz</button>
+</section>
+<p class="small">Slide numbers refer to the lecture's printed slide numbers (for example, 2 / 92), not the PDF viewer's page count.</p>
+</main>
+<script>
+const questions = [["What are Android resources, according to the slides?", ["Things embedded (bundled) into the app", "Files downloaded only at runtime", "Java classes used to create Activities", "External files that cannot be packaged"], 0, "Resources are things bundled into the application.", "2"], ["Where are Android resources generally stored?", ["src/main/java/", "res/", "AndroidManifest.xml", "build/"], 1, "The slides identify the res/ directory as the place for resources.", "2"], ["How can a resource be accessed through code?", ["App.resource.category", "R.<category>.<resourceName>", "Resources/<name>", "Context.<resourceName>"], 1, "The resource reference pattern shown is R.<category>.<resourceName>.", "2"], ["What do the slides recommend avoiding in code?", ["Using resource IDs", "Using XML layouts", "Hard-coding values", "Creating Views"], 2, "Values should be moved into resources instead of hard-coded in code.", "2"], ["Which item is listed as a major Android resource category?", ["Values", "Threads", "Sockets", "Activities"], 0, "The contents slide lists Values, Layouts, Drawables, Raw, and Styles/Design Guidelines.", "3"], ["What is the purpose of an Android layout?", ["To organize Views inside a UI", "To store audio files", "To declare network permissions only", "To compile Java code"], 0, "A layout organizes Views within a user interface.", "9"], ["Where are XML layout files stored in the slides?", ["res/menu/", "res/layout/", "res/raw/", "assets/layout/"], 1, "The slides specify XML layout files in res/layout.", "9"], ["Which statement about layouts is correct?", ["A layout cannot contain another layout", "A layout is always written in Java", "Layouts form a hierarchical UI structure and can be nested", "A layout can contain only TextViews"], 2, "Layouts are hierarchical and may be nested.", "9"], ["Which two attributes are required for a View in layout XML, according to the slides?", ["android:id and android:text", "layout_width and layout_height", "orientation and gravity", "padding and margin"], 1, "The slides identify layout_width and layout_height as required attributes.", "10"], ["Why might a View have an android:id attribute?", ["To make it invisible", "To retrieve it later using findViewById()", "To change the app package", "To create a new resource directory"], 1, "The id is optional and can be used later with findViewById().", "10"], ["In which Activity lifecycle method do the slides show loading an XML layout with setContentView()?", ["onStart()", "onCreate()", "onPause()", "onDestroy()"], 1, "The example calls setContentView() inside onCreate().", "13"], ["Which Fragment method is shown inflating its XML layout?", ["onCreateView()", "onResume()", "onAttachView()", "setContentView()"], 0, "The Fragment example inflates the layout in onCreateView().", "13"], ["Which directory qualifier is shown for landscape-specific layouts?", ["-wide", "-horizontal", "-land", "-screen"], 2, "The slides show -land and -port qualifiers for orientation.", "12"], ["Which layout class places children in multiple Z-order layers, like Photoshop?", ["LinearLayout", "FrameLayout", "GridView", "ScrollView"], 1, "FrameLayout supports multiple layers; the first child is at the bottom.", "16"], ["In a FrameLayout, where is the first child positioned in the Z-order?", ["At the top", "At the bottom", "Outside the parent", "It is always hidden"], 1, "The first child is at the bottom layer.", "16"], ["Which FrameLayout features are explicitly listed?", ["Child margins and gravity", "Only weights", "Only relative positioning", "Automatic tab headers"], 0, "The slides list support for child margins and gravity.", "16"], ["What is the defining arrangement of a LinearLayout?", ["Children are arranged in one direction", "Children overlap by default", "Children are positioned only relative to siblings", "Children are arranged in a 3D grid"], 0, "LinearLayout arranges children horizontally or vertically in one direction.", "18"], ["Which attribute selects the direction of a LinearLayout?", ["android:gravity", "android:orientation", "android:layout_weight", "android:layout_margin"], 1, "The examples use android:orientation=\"vertical\" or \"horizontal\".", "18"], ["For a horizontal LinearLayout, what does layout_weight stretch?", ["Height", "Width", "Text size", "Z-order"], 1, "The slides state horizontal orientation stretches width.", "21"], ["For a vertical LinearLayout, what does layout_weight stretch?", ["Width", "Height", "Padding only", "The number of children"], 1, "The slides state vertical orientation stretches height.", "21"], ["According to the slides, what happens when a child has no layout_weight?", ["It always fills the parent", "It receives no weight-based stretching", "It is removed", "It overlaps all siblings"], 1, "The slide says: no layout_weight means no stretch.", "21"], ["A horizontal LinearLayout is 720 px wide. One child has fixed width 100 px, while two children have width 0 px and equal weight 1. Ignoring other spacing, what width does each weighted child receive?", ["100 px", "200 px", "310 px", "360 px"], 2, "The fixed-width child uses 100 px, leaving 620 px. Two equal weights divide the remaining width equally: 310 px each.", "22"], ["What does RelativeLayout allow child positions and sizes to be relative to?", ["Only the screen edge", "The parent and other children", "Only the first child", "Only the app bar"], 1, "The slides describe relationships to the parent and to other children.", "25"], ["Which statement best describes RelativeLayout in the slides?", ["It supports multiple layers and relative positioning", "It only stacks children vertically", "It cannot position children relative to one another", "It is a resource value file"], 0, "RelativeLayout has Z-order layers and positions/sizes children relative to parent or each other.", "25"], ["Which of these is listed as another ViewGroup/layout-related component?", ["RecyclerView", "BroadcastReceiver", "SharedPreferences", "IntentFilter"], 0, "RecyclerView is included in the slide's list of other ViewGroups.", "31"], ["What kind of interaction is ViewPager designed to support?", ["Horizontal page-by-page swiping", "Only vertical scrolling", "Dragging files into storage", "Editing XML resources"], 0, "ViewPager is described as a tab-like container with horizontal swipe and page-by-page scrolling.", "35"], ["Does ViewPager itself provide a header in the slides?", ["Yes, always", "No; use a separate View for the header", "Only when nested", "Only on tablets"], 1, "The slides say there is no header and recommend a separate View, such as TabLayout.", "36"], ["What represents the content of each ViewPager tab/page in the slides?", ["A Fragment", "A color resource", "A menu item", "A raw file"], 0, "Each tab's content is a Fragment.", "37"], ["What can happen to fragments outside the ViewPager off-screen limit?", ["They are permanently saved and never recreated", "They can be destroyed and recreated when needed", "They become menu resources", "They are converted to Activities"], 1, "The slides state off-screen fragments outside the limit are destroyed and recreated when necessary.", "37"], ["What is the purpose of the ViewPager adapter in the Java class?", ["To specify which Fragment belongs to each page", "To define app permissions", "To resize bitmap images", "To store string translations"], 0, "The adapter specifies the Fragment for each page.", "39"], ["In the example adapter, what does getCount() return?", ["The current page title", "The number of pages", "The FragmentManager", "The view ID"], 1, "getCount() returns PAGE_COUNT, the number of pages.", "40"], ["In the example adapter, what does getItem(page) return?", ["A Fragment instance for the requested page", "A color integer", "The layout width", "A menu XML file"], 0, "getItem() returns a Fragment corresponding to the specified page.", "40"], ["Which adapter method provides the title for a page/tab?", ["getTitleText()", "getPageTitle()", "getTabName()", "getCount()"], 1, "getPageTitle(page) returns the corresponding tab title.", "40"], ["Which method links a TabLayout to a ViewPager in the slides?", ["tabLayout.attach(pager)", "tabLayout.setupWithViewPager(pager)", "pager.setTabLayout(tabLayout)", "pager.bindTabs(tabLayout)"], 1, "The example calls setupWithViewPager(pager).", "45"], ["Where does the slide say to declare the design support dependency?", ["In the app's build.gradle, not the project-level one", "Only in AndroidManifest.xml", "In strings.xml", "In the Fragment Java file"], 0, "The dependency is added to the app's build.gradle file.", "45"], ["Which file is the default location for string values in the slides?", ["res/values/strings.xml", "res/raw/strings.xml", "assets/strings.xml", "res/layout/strings.xml"], 0, "The default string file is res/values/strings.xml.", "50"], ["What is one reason for using Values resources?", ["They centralize constants", "They prevent localization", "They replace all Java classes", "They store only images"], 0, "The slides list a central point for constants, theming, and internationalization.", "49"], ["What does i18n stand for in the slides?", ["Internet integration", "Internationalization", "Internal indexing", "Interface inheritance"], 1, "The slides explicitly expand i18n as internationalization.", "49"], ["Which folder is shown for French string translations?", ["res/values-fr/strings.xml", "res/strings-fr/", "assets/fr/strings.xml", "res/raw-fr/"], 0, "The French example is stored in res/values-fr/strings.xml.", "50"], ["In the slides' example, what value does column_count have in landscape mode?", ["0", "1", "2", "3"], 2, "The default integer is 1; the landscape-qualified integer is 2.", "51"], ["In the Boolean resource example, what is is_tablet set to in the default values?", ["true", "false", "null", "1"], 1, "The default bool is false; the tablet-qualified version is true.", "52"], ["What is the color resource example's default colorPrimary value?", ["#FF4081", "#3F51B5", "#FFFFFF", "#000000"], 1, "The default colorPrimary is #3F51B5; the large-screen example uses #FF4081.", "53"], ["Which unit is used for title_width in the dimensions example?", ["sp", "px", "dp", "pt"], 2, "The example defines title_width as 60dp.", "54"], ["In the example, which reference is used to set a TextView's text from a string resource?", ["@string/refresh", "@values/refresh", "@raw/refresh", "@layout/refresh"], 0, "The XML example uses android:text=\"@string/refresh\".", "55"], ["Which resource color format is specified in the slides?", ["RGB 16-bit", "AARRGGBB 32-bit", "CMYK", "HSL 64-bit"], 1, "The slides describe Color as a 32-bit AARRGGBB format.", "56"], ["Which two drawable types are listed?", ["XML drawables and bitmap drawables", "Only SVG and GIF", "Only Java drawables", "Menu drawables and Activity drawables"], 0, "The slides list XML drawables in res/drawable and bitmap PNG/JPEG drawables in res/drawable-*dpi.", "59"], ["How can an ImageView reference a drawable in XML?", ["android:background=\"@string/name\"", "android:src=\"@drawable/name\"", "android:text=\"@drawable/name\"", "android:id=\"@drawable/name\""], 1, "The slides show ImageView using src=\"@drawable/name\".", "59"], ["What is a key purpose of a 9-patch drawable?", ["To stretch selected parts of an image and define padding", "To store JSON files", "To create app menus", "To translate strings"], 0, "The slides list transparency, stretchable areas, and padding as 9-patch features.", "60"], ["On a 9-patch image, what do black pixels on the top and left edges define?", ["Padding", "The stretching area", "The file name", "The transparent background"], 1, "Top and left edge black pixels define the stretch area.", "61"], ["On a 9-patch image, what do black pixels on the bottom and right edges define?", ["The padding", "The stretching area", "The app icon", "The XML namespace"], 0, "Bottom and right edge black pixels define padding.", "61"], ["Which locations are listed for storing raw data?", ["res/raw/ and assets/", "res/layout/ and res/menu/", "src/ and build/", "res/values/ only"], 0, "The slides identify res/raw/ and assets/ as the two places.", "66"], ["Which statement about res/raw/ is correct?", ["It is a resource and follows the resource naming convention", "It cannot be accessed by code", "It has no R identifier", "It is only for MP3 files"], 0, "Files in res/raw are resources and are accessed through R.raw.<name>.", "67"], ["Which code pattern is shown for opening a file from res/raw?", ["getAssets().open(name)", "context.getResources().openRawResource(R.raw.resid)", "new File(R.raw.resid)", "R.raw.open(name)"], 1, "The slide uses openRawResource(R.raw.resid).", "68"], ["Which statement about assets/ is correct according to the slides?", ["Assets are resources addressed by R.assets", "Assets are not Android resources and have no R.<assets> reference", "Assets can only contain XML layouts", "Assets must follow resource naming conventions"], 1, "The slides say assets are not resources, have no R.<assets>, and can be named freely.", "69"], ["How does the slide show opening a file from assets/?", ["getAssets().open(\"<filename>\")", "getResources().openRawResource(R.assets.name)", "R.assets.open(filename)", "openRawFile(filename)"], 0, "The example uses getAssets().open(\"<filename>\").", "70"], ["Which class is mentioned for playing an MP3 in Practical Work 11?", ["MediaPlayer", "ImageView", "TabLayout", "FragmentPagerAdapter"], 0, "The practical work asks students to play the MP3 using MediaPlayer.", "71"], ["Which is listed as a major purpose/use of menus in Android?", ["App-wide actions, context menus, and popup menus", "Only displaying images", "Managing database tables", "Replacing all layouts"], 0, "The slides list app-wide actions, context menu, and popup menu.", "76"], ["What was the App Bar previously called?", ["Navigation Bar", "ActionBar", "StatusPanel", "ToolMenu"], 1, "The slides say the App Bar was previously called ActionBar.", "80"], ["Which is an example of a common app-wide App Bar action listed in the slides?", ["Search", "Changing CPU frequency", "Editing raw files", "Rebuilding layouts"], 0, "Search and Settings are examples of common app-wide functions.", "80"], ["Which element may optionally appear in an App Bar layout?", ["Navigation Drawer/back icon", "A mandatory RecyclerView", "A raw JSON editor", "A required ViewPager"], 0, "The slide lists Navigation Drawer/back icon and app logo as optional elements.", "81"], ["What is the first step in the App Bar workflow shown in the slides?", ["Respond to actions", "Define a menu resource", "Create a raw file", "Call getPageTitle()"], 1, "The workflow begins by defining a menu resource for the App Bar.", "82"], ["Where are menu resource XML files defined?", ["res/menu/<name>.xml", "res/layout/<name>.xml", "res/raw/<name>.xml", "assets/menu/<name>.xml"], 0, "The slides specify res/menu/<name>.xml.", "84"], ["In a menu item, what does the id attribute do?", ["Identifies the menu item", "Defines the item's padding", "Sets the screen orientation", "Chooses a Fragment"], 0, "The id is used to identify each menu item.", "85"], ["In a menu item, what does the title attribute specify?", ["The text of the menu item", "The drawable's stretch area", "The Fragment count", "The app's package name"], 0, "The title attribute is the text shown for the menu item.", "85"], ["What does app:showAsAction=\"ifRoom\" mean in the slides?", ["Always hide the action", "Show the action if enough space is available", "Always put it in the overflow menu", "Show it only on tablets"], 1, "ifRoom means the action can be shown when there is enough room.", "85"], ["What does app:showAsAction=\"never\" mean?", ["Always display the icon on the App Bar", "Always place the item in the overflow popup menu", "Show the item only in landscape", "Remove the item from the menu"], 1, "The slides say never means always in an overflow popup menu.", "85"], ["Which method inflates the menu XML for the App Bar?", ["onOptionsItemSelected()", "onCreateOptionsMenu()", "onCreateView()", "getPageTitle()"], 1, "The slides show inflating R.menu.menu_weather in onCreateOptionsMenu().", "88"], ["Which method handles a selected App Bar menu action?", ["onOptionsItemSelected()", "onCreateOptionsMenu()", "setContentView()", "getCount()"], 0, "The slides use onOptionsItemSelected() to respond to actions.", "89"], ["What does getMenuInflater().inflate(R.menu.menu_weather, menu) do in the example?", ["Inflates the menu resource into the provided Menu", "Loads a Fragment page", "Reads a file from assets", "Sets the ViewPager off-screen limit"], 0, "The code inflates the menu resource into the Menu object.", "88"], ["In Practical Work 12, what should the Refresh action do?", ["Start PrefActivity", "Show a toast", "Open an MP3 file", "Change the app language"], 1, "The practical work says Refresh should always be visible and show a toast.", "92"]];
+const perRound = 5;
+let round = 0;
+let answers = {};
+const quiz = document.getElementById('quiz');
+const scoreEl = document.getElementById('score');
+const bar = document.getElementById('bar');
+const roundTitle = document.getElementById('roundTitle');
+const prev = document.getElementById('prev');
+const next = document.getElementById('next');
+const status = document.getElementById('status');
+const summary = document.getElementById('summary');
+
+function render() {
+  summary.classList.remove('show');
+  quiz.style.display = 'block';
+  document.querySelector('.controls').style.display = 'flex';
+  const start = round * perRound;
+  const end = Math.min(start + perRound, questions.length);
+  roundTitle.textContent = `Round ${round + 1} of ${Math.ceil(questions.length / perRound)}`;
+  quiz.innerHTML = '';
+  for (let i = start; i < end; i++) {
+    const q = questions[i];
+    const chosen = answers[i];
+    const card = document.createElement('article');
+    card.className = 'card';
+    const head = document.createElement('div');
+    head.className = 'qhead';
+    head.innerHTML = `<span class="qnum">Question ${i + 1}</span><span class="slide">Slide ${q[4]}</span>`;
+    const title = document.createElement('div');
+    title.className = 'question';
+    title.textContent = q[0];
+    const options = document.createElement('div');
+    options.className = 'options';
+    q[1].forEach((opt, j) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'option';
+      b.textContent = `${String.fromCharCode(65+j)}. ${opt}`;
+      if (chosen !== undefined) {
+        b.disabled = true;
+        if (j === q[2]) b.classList.add('correct');
+        else if (j === chosen) b.classList.add('wrong');
+      }
+      b.addEventListener('click', () => {
+        if (answers[i] === undefined) {
+          answers[i] = j;
+          updateScore();
+          render();
+        }
+      });
+      options.appendChild(b);
+    });
+    const feedback = document.createElement('div');
+    feedback.className = 'feedback' + (chosen !== undefined ? ' show' : '');
+    if (chosen !== undefined) {
+      const isCorrect = chosen === q[2];
+      feedback.innerHTML = `<strong>${isCorrect ? 'Correct!' : 'Not quite.'} Correct answer: ${String.fromCharCode(65+q[2])}. ${escapeHtml(q[1][q[2]])}</strong><span>${escapeHtml(q[3])}</span><br><span class="small">Source: Slide ${q[4]}.</span>`;
+    }
+    card.append(head, title, options, feedback);
+    quiz.appendChild(card);
+  }
+  prev.disabled = round === 0;
+  const answeredThisRound = Array.from({length:end-start}, (_,k)=>answers[start+k] !== undefined).every(Boolean);
+  next.disabled = round === Math.ceil(questions.length/perRound)-1;
+  status.textContent = answeredThisRound ? 'Round complete — continue when ready.' : 'Answer all 5 questions to continue.';
+  updateScore();
+}
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function updateScore() {
+  const done = Object.keys(answers).length;
+  const correct = Object.keys(answers).filter(k => answers[k] === questions[k][2]).length;
+  scoreEl.textContent = `Score: ${correct} / ${done} answered`;
+  bar.style.width = `${done / questions.length * 100}%`;
+}
+next.addEventListener('click', () => {
+  if (round < Math.ceil(questions.length/perRound)-1) { round++; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+  else showSummary();
+});
+prev.addEventListener('click', () => { if (round > 0) { round--; render(); window.scrollTo({top:0,behavior:'smooth'}); } });
+function showSummary() {
+  const done = Object.keys(answers).length;
+  const correct = Object.keys(answers).filter(k => answers[k] === questions[k][2]).length;
+  quiz.style.display = 'none';
+  document.querySelector('.controls').style.display = 'none';
+  summary.classList.add('show');
+  document.getElementById('finalScore').textContent = `You answered ${done} of ${questions.length} questions. Correct answers: ${correct}/${questions.length} (${Math.round(correct/questions.length*100)}%).`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.getElementById('restart').addEventListener('click', () => { round=0; answers={}; render(); window.scrollTo({top:0,behavior:'smooth'}); });
+render();
+</script>
+</body>
+</html>

@@ -27,6 +27,7 @@ Exhaustive, slide-by-slide and line-by-line breakdown for every lecture deck:
 - 📖 [**Lecture 3 Explanation**](file:///c:/Users/admin/projects/personal/mobile-mid/explanations/LECTURE_3_EXPLANATION.md): 4-layer architecture, compilation chain, Dalvik vs ART, Context, Application, Manifest, Activity lifecycle, Screen rotation, Fragments, Views.
 - 📖 [**Lecture 4 Explanation**](file:///c:/Users/admin/projects/personal/mobile-mid/explanations/LECTURE_4_EXPLANATION.md): Resources & R class, FrameLayout, LinearLayout weight math formula, ViewPager, Values & i18n, 9-patch rules, res/raw vs assets, App Bar & ToolBar.
 - 📖 [**Lecture 5 Explanation**](file:///c:/Users/admin/projects/personal/mobile-mid/explanations/LECTURE_5_EXPLANATION.md): Threading model, UI single-thread rules, CalledFromWrongThreadException, Handler & Message, AsyncTask generics and 4 execution methods.
+- 🛠️ [**Labwork Practical Works (PW1–PW12) Line-by-Line Guide**](file:///c:/Users/admin/projects/personal/mobile-mid/explanations/LABWORK_LECTURES_2_3_4_EXPLANATION.md): Exhaustive line-by-line code breakdown for all 12 Practical Works across Lectures 2, 3, and 4, aligned with the 150 psychometric exam MCQs.
 
 ---
 

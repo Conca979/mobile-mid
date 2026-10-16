@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Android Fundamentals | 30-Question MCQ Quiz</title>
+  <style>
+    :root {
+      --bg: #f5f7fa;
+      --paper: #ffffff;
+      --ink: #1a2433;
+      --muted: #637083;
+      --line: #e0e6ed;
+      --accent: #2868d7;
+      --accent-soft: #edf4ff;
+      --correct: #16764a;
+      --correct-soft: #eaf7f0;
+      --wrong: #b42335;
+      --wrong-soft: #fff0f1;
+      --shadow: 0 8px 28px rgba(23, 35, 55, .055);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 16px/1.55 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    button, input { font: inherit; }
+    .shell { width: min(100% - 32px, 920px); margin: 0 auto; }
+    .hero { padding: 42px 0 24px; }
+    .eyebrow {
+      color: var(--accent); font-size: .76rem; font-weight: 800; letter-spacing: .13em;
+      text-transform: uppercase; margin: 0 0 10px;
+    }
+    h1 { font-size: clamp(2rem, 5vw, 3.15rem); line-height: 1.08; letter-spacing: -.045em; margin: 0; }
+    .sub { max-width: 670px; color: var(--muted); margin: 15px 0 22px; font-size: 1rem; }
+    .stats { display: flex; gap: 9px; flex-wrap: wrap; }
+    .stat { border: 1px solid var(--line); background: rgba(255,255,255,.76); border-radius: 999px; padding: 6px 12px; color: #455268; font-size: .84rem; }
+    .toolbar {
+      position: sticky; top: 0; z-index: 5; background: rgba(245,247,250,.94); backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(224,230,237,.75); border-bottom: 1px solid var(--line); padding: 12px 0;
+    }
+    .toolbar-inner { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+    .progress-block { min-width: 175px; flex: 1 1 190px; }
+    .progress-label { display: flex; justify-content: space-between; color: var(--muted); font-size: .83rem; margin-bottom: 5px; gap: 10px; }
+    .track { width: 100%; height: 6px; background: #e3e8ef; border-radius: 20px; overflow: hidden; }
+    .track-fill { width: 0; height: 100%; background: var(--accent); border-radius: inherit; transition: width .18s ease; }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn { border: 1px solid var(--line); background: var(--paper); color: var(--ink); padding: 9px 13px; border-radius: 11px; font-weight: 700; font-size: .88rem; cursor: pointer; }
+    .btn:hover { border-color: #aebbd0; transform: translateY(-1px); }
+    .btn-primary { background: var(--accent); border-color: var(--accent); color: white; }
+    .btn-primary:hover { background: #1f59bc; border-color: #1f59bc; }
+    .btn:focus-visible, input:focus-visible + .choice-text, summary:focus-visible { outline: 3px solid #92b8ff; outline-offset: 3px; }
+    #result { display: none; margin: 22px auto 0; padding: 18px 20px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper); box-shadow: var(--shadow); }
+    #result.show { display: block; }
+    #result h2 { margin: 0 0 3px; font-size: 1.25rem; }
+    #result p { margin: 0; color: var(--muted); }
+    main { padding: 24px 0 64px; }
+    .question-card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(17px, 3.2vw, 25px); margin: 0 0 15px; box-shadow: var(--shadow); scroll-margin-top: 110px; }
+    .q-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+    .q-number { color: #667389; font-size: .82rem; font-weight: 800; letter-spacing: .07em; }
+    .topic { font-size: .74rem; color: #3f5f91; background: var(--accent-soft); border-radius: 999px; padding: 4px 9px; white-space: nowrap; font-weight: 700; }
+    .stem { font-weight: 720; font-size: 1.03rem; line-height: 1.52; margin: 0 0 17px; }
+    fieldset { padding: 0; margin: 0; border: 0; min-width: 0; }
+    .choices { display: grid; gap: 9px; }
+    .choice { position: relative; display: flex; align-items: flex-start; gap: 12px; padding: 12px 13px; border: 1px solid var(--line); border-radius: 12px; cursor: pointer; background: #fff; transition: border-color .15s, background .15s; }
+    .choice:hover { border-color: #a9bddb; background: #fbfdff; }
+    .choice input { accent-color: var(--accent); margin: 4px 0 0; flex: 0 0 auto; width: 16px; height: 16px; }
+    .letter { display: inline-grid; place-items: center; width: 25px; height: 25px; border-radius: 7px; flex: 0 0 25px; background: #f0f3f7; color: #4c596c; font-weight: 800; font-size: .78rem; }
+    .choice-text { flex: 1; min-width: 0; font-size: .94rem; }
+    .choice.selected { border-color: #80a8ef; background: var(--accent-soft); }
+    .choice.correct { border-color: #81c8a5; background: var(--correct-soft); }
+    .choice.correct .letter { background: #d2efdf; color: var(--correct); }
+    .choice.incorrect { border-color: #e8a1a8; background: var(--wrong-soft); }
+    .choice.incorrect .letter { background: #ffdbde; color: var(--wrong); }
+    .feedback { display: none; margin-top: 13px; border-radius: 11px; padding: 11px 13px; font-size: .9rem; }
+    .feedback.show { display: block; }
+    .feedback.good { background: var(--correct-soft); color: #135b3c; }
+    .feedback.bad { background: var(--wrong-soft); color: #8e1e2b; }
+    .feedback strong { display: block; margin-bottom: 2px; }
+    details { border-top: 1px solid var(--line); margin-top: 15px; padding-top: 12px; }
+    summary { cursor: pointer; color: #4d5d73; font-size: .88rem; font-weight: 750; width: fit-content; }
+    .rationale-list { padding: 0 0 0 19px; margin: 10px 0 0; color: #526074; font-size: .86rem; }
+    .rationale-list li { padding-left: 3px; margin: 7px 0; }
+    .rationale-list b { color: var(--ink); }
+    .footer-note { color: var(--muted); text-align: center; font-size: .82rem; margin-top: 26px; }
+    @media (max-width: 600px) {
+      .shell { width: min(100% - 20px, 920px); }
+      .hero { padding-top: 30px; }
+      .toolbar-inner { align-items: stretch; }
+      .progress-block { flex-basis: 100%; }
+      .actions { display: grid; grid-template-columns: 1fr 1fr; }
+      .btn { padding: 10px 9px; }
+      .question-card { border-radius: 14px; }
+      .choice { gap: 9px; padding: 11px 10px; }
+      .choice-text { font-size: .91rem; }
+    }
+    @media print {
+      body { background: white; }
+      .toolbar, .actions, #result { display: none !important; }
+      .hero { padding: 10px 0 20px; }
+      .question-card { box-shadow: none; break-inside: avoid; }
+      details { display: block; }
+      details > * { display: block !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero shell">
+    <p class="eyebrow">Android fundamentals · assessment</p>
+    <h1>30-question MCQ quiz</h1>
+    <p class="sub">Scenario-based questions on Android architecture, compilation, lifecycle, Intents, Fragments, and Views. Choose one answer per question, then check your work to see the key and explanations.</p>
+    <div class="stats" aria-label="Quiz information">
+      <span class="stat">30 questions</span><span class="stat">4 options each</span><span class="stat">Self-checking</span><span class="stat">Works offline</span>
+    </div>
+  </header>
+  <div class="toolbar">
+    <div class="shell toolbar-inner">
+      <div class="progress-block">
+        <div class="progress-label"><span id="progressText">Answered 0 of 30</span><span id="progressPercent">0%</span></div>
+        <div class="track" role="progressbar" aria-label="Questions answered" aria-valuemin="0" aria-valuemax="30" aria-valuenow="0" id="progressTrack"><div class="track-fill" id="progressFill"></div></div>
+      </div>
+      <div class="actions">
+        <button class="btn btn-primary" id="checkBtn" type="button">Check answers</button>
+        <button class="btn" id="keyBtn" type="button" aria-expanded="false">Show answer key</button>
+        <button class="btn" id="resetBtn" type="button">Reset quiz</button>
+      </div>
+    </div>
+  </div>
+  <section id="result" class="shell" aria-live="polite">
+    <h2 id="resultTitle">Your result</h2><p id="resultText"></p>
+  </section>
+  <section id="answerKey" class="shell" hidden style="padding-top:16px;">
+    <div style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;">
+      <h2 style="margin:0 0 8px;font-size:1.05rem;">Answer key</h2><p id="keyList" style="margin:0;color:var(--muted);line-height:1.9;"></p>
+    </div>
+  </section>
+  <main class="shell" id="quizForm" aria-label="Android Fundamentals multiple choice questions"></main>
+  <footer class="shell footer-note">Study tip: use the distractor rationales to identify the concept each wrong option confuses.</footer>
+  <script>
+    const QUESTIONS = [{"topic": "Architecture", "stem": "A weather app needs location and notification services through Android's high-level Java APIs. Which layer should expose those services?", "options": ["Use native C/C++ libraries for high-level location and notification APIs.", "Use the Linux kernel for app-facing notification and location services.", "Use the Java application framework for location and notification services.", "Use application-layer classes to expose shared location and notification APIs."], "correct": 2, "why": "The application framework is the higher-level Java layer that exposes services such as location and notifications.", "rationales": {"A": "Confuses lower-level native libraries with the framework's higher-level service APIs.", "B": "Assigns application-facing framework services to the kernel layer.", "D": "Confuses an app's own code with the operating system's shared service layer."}, "answerLetter": "C"}, {"topic": "Architecture", "stem": "A team needs low-level support for media playback, text rendering, and local database operations. Which Android layer best matches these functions?", "options": ["Use native C/C++ libraries for media, text, and database functions.", "Use Java framework classes for kernel-level media and database drivers.", "Use app activities to access media, text, and database functions directly.", "Use the Linux kernel to provide application-level text rendering widgets."], "correct": 0, "why": "Android native libraries, mostly written in C/C++, provide low-level media, text-rendering, and database functions.", "rationales": {"B": "Mixes higher-level Java framework APIs with low-level driver responsibilities.", "C": "Confuses the app component calling these features with the low-level layer providing them.", "D": "Places application-facing text widgets in the kernel rather than the UI framework."}, "answerLetter": "A"}, {"topic": "Architecture", "stem": "A developer is implementing the app's own screens and application-specific behavior in Java. Where does that code belong in the Android architecture?", "options": ["Place the app's Java code inside the Linux kernel layer.", "Place the app's Java code inside the native libraries layer.", "Place the app's Java code inside the framework services layer.", "Place the app's Java code inside the applications layer."], "correct": 3, "why": "The applications layer is where developers implement their own apps, including Java screens and application-specific behavior.", "rationales": {"A": "Confuses application code with the operating-system kernel.", "B": "Confuses app-specific Java logic with low-level native libraries.", "C": "Confuses the shared framework APIs used by apps with the apps themselves."}, "answerLetter": "D"}, {"topic": "Compilation", "stem": "A build pipeline must turn Java application code into a form that runs in Android's virtual-machine environment. Which sequence matches that pipeline?", "options": ["Convert Java source directly into a shared native library before execution.", "Convert Java into Dex, then run it in a virtual machine.", "Convert Java source into layout XML, then load executable resources.", "Run Java source directly in Dalvik without converting it to Dex."], "correct": 1, "why": "Android converts Java code to Dex and then runs it through a virtual machine.", "rationales": {"A": "Substitutes native-library compilation for the Java-to-Dex virtual-machine path.", "C": "Confuses layout resources with the executable code that the virtual machine runs.", "D": "Skips Dex conversion and treats Java source as directly executable by Dalvik."}, "answerLetter": "B"}, {"topic": "Compilation and isolation", "stem": "Two installed apps must not execute as though they share one undifferentiated runtime. Which arrangement best reflects Android's app-isolation model?", "options": ["Keep all application execution inside one shared process and user.", "Keep every application in one shared process with separate users.", "Keep each app's virtual-machine execution in a separate process and user.", "Keep each app inside a separate UI thread in one process."], "correct": 2, "why": "Android isolates app execution through separated processes and users.", "rationales": {"A": "Removes both process separation and user separation.", "B": "Keeps a shared process, so it does not match the full isolation model.", "D": "Confuses a UI thread with process-level isolation between applications."}, "answerLetter": "C"}, {"topic": "Views: spacing attributes", "stem": "A label's text is too close to its own edge, while neighboring controls are too close together. Which pair of attributes addresses the two spacing problems?", "options": ["Set margin for inner content spacing and padding between sibling views.", "Set padding for inner content spacing and margin between neighboring views.", "Set alpha for inner content spacing and rotation between neighboring views.", "Set width for inner content spacing and height between neighboring views."], "correct": 1, "why": "Padding adds space inside a view's boundary; margin adds space outside it relative to neighboring views.", "rationales": {"A": "Reverses the roles of padding and margin.", "C": "Alpha and rotation affect appearance, not internal and external spacing.", "D": "Width and height set dimensions rather than the two kinds of spacing."}, "answerLetter": "B"}, {"topic": "Context", "stem": "A helper must read app-specific resources and private files, then request a system service, without representing a screen. Which Android object provides this access?", "options": ["Use a Context to access app data, resources, files, and system services.", "Use a Fragment to access app data, resources, files, and system services.", "Use a ViewGroup to access app data, resources, files, and system services.", "Use the Manifest to access app data, resources, files, and system services."], "correct": 0, "why": "Context provides access to application-specific data, resources, private files, assets, and system services.", "rationales": {"B": "Context provides app access; a Fragment instead represents part of a UI or behavior.", "C": "A ViewGroup contains child views and manages layout rather than supplying Context access.", "D": "The manifest stores application metadata; it is not a runtime access object."}, "answerLetter": "A"}, {"topic": "Application", "stem": "A crash-reporting library must initialize early and shared app data must be available beyond a single screen. Which design best fits those needs?", "options": ["Use each Activity's onCreate() to initialize shared libraries on every screen.", "Use a custom Application's onCreate() for early shared library initialization.", "Use each Fragment's onCreateView() to initialize shared libraries on every screen.", "Use each View's click listener to initialize shared libraries after user input."], "correct": 1, "why": "A custom Application subclass can hold global data and initialize libraries early in onCreate().", "rationales": {"A": "Repeats process-wide initialization at the screen level instead of centralizing it.", "C": "A Fragment view callback is tied to UI creation, not early application-wide setup.", "D": "A click listener initializes too late and only after a particular interaction."}, "answerLetter": "B"}, {"topic": "Manifest and permissions", "stem": "An Android app needs to declare that it may send SMS messages. Where should that permission be declared?", "options": ["Add SEND_SMS permission through Activity code without a manifest declaration.", "Request SEND_SMS by registering an Activity intent filter in the manifest.", "Register SEND_SMS inside the Fragment's onCreateView() callback during UI initialization.", "Declare SEND_SMS permission in AndroidManifest.xml as app metadata."], "correct": 3, "why": "AndroidManifest.xml holds application metadata, including permission declarations such as SEND_SMS.", "rationales": {"A": "Confuses a manifest permission declaration with trying to request access only in Activity code.", "B": "Confuses an intent filter used for routing with a permission declaration.", "C": "Confuses a Fragment UI callback with the manifest's metadata declaration."}, "answerLetter": "D"}, {"topic": "Memory management", "stem": "A device is under memory pressure while an app has several activities in its task. Which expectation is consistent with Android's memory-management behavior?", "options": ["Expect Android to keep every Activity alive until users close it.", "Expect garbage collection to permanently raise the app's memory limit.", "Expect garbage collection and possible Activity killing under memory pressure.", "Expect garbage collection to prevent every application out-of-memory exception."], "correct": 2, "why": "Android uses garbage collection within per-app memory limits; low memory can lead to Activity killing or out-of-memory exceptions.", "rationales": {"A": "Assumes activities are guaranteed to remain alive even when memory is scarce.", "B": "Garbage collection reclaims eligible memory; it does not permanently raise the app's limit.", "D": "Confuses memory reclamation with preventing every application out-of-memory exception."}, "answerLetter": "C"}, {"topic": "Activity", "stem": "A weather app needs a distinct screen for detailed forecast information, with its own task or purpose. Which component is designed to represent that screen?", "options": ["Use a Fragment to represent a complete screen with independent purpose.", "Use a ViewGroup to represent a complete screen with independent purpose.", "Use a Context to represent a complete screen with independent purpose.", "Use an Activity to represent a screen with a distinct purpose."], "correct": 3, "why": "An Activity is a fundamental application component associated with displaying a single screen and a distinct task or purpose.", "rationales": {"A": "A Fragment represents a portion of UI or behavior and is optional within an Activity.", "B": "A ViewGroup is a UI container, not the screen-level Activity component.", "C": "Context provides access to app resources and system services rather than representing a screen."}, "answerLetter": "D"}, {"topic": "Activity lifecycle", "stem": "During Activity startup, the app must load its layout and then retrieve a TextView by its ID. Which sequence is appropriate inside onCreate()?", "options": ["Call setContentView() before findViewById() inside onCreate().", "Call findViewById() before setContentView() inside onCreate().", "Call findViewById() before onResume() inside onCreate().", "Call onResume() before setContentView() inside onCreate()."], "correct": 0, "why": "The layout is set with setContentView() before the code retrieves its TextView using findViewById().", "rationales": {"B": "Attempts to find a view before the Activity has loaded the layout containing it.", "C": "Calls a foreground callback as if it were an initialization step inside onCreate().", "D": "Calls onResume() manually before layout setup instead of letting Android manage lifecycle order."}, "answerLetter": "A"}, {"topic": "Activity lifecycle", "stem": "An Activity is losing foreground focus, and it currently owns the camera. Which callback is the appropriate place to release that resource and stop work that should not continue while paused?", "options": ["Use onCreate() to release the camera when the user leaves the foreground.", "Use onResume() to release the camera when the user leaves the foreground.", "Use onPause() to release the camera when the user leaves the foreground.", "Use onDestroy() to release the camera when the user leaves the foreground."], "correct": 2, "why": "onPause() is a suitable point to stop heavy work, save unsaved changes, and release resources such as the camera.", "rationales": {"A": "onCreate() initializes the Activity; it is not the pause-time cleanup callback.", "B": "onResume() is associated with returning to the foreground and acquiring resources.", "D": "Waiting until destruction delays resource release beyond the pause transition."}, "answerLetter": "C"}, {"topic": "Activity lifecycle", "stem": "When an Activity returns to the foreground, the app should acquire the camera if it is not already initialized. Which callback best matches that transition?", "options": ["Acquire the camera in onPause() as the Activity loses foreground focus.", "Acquire the camera in onResume() as the Activity regains foreground focus.", "Acquire the camera in onDestroy() as the Activity regains foreground focus.", "Acquire the camera in onCreateView() as the Activity regains foreground focus."], "correct": 1, "why": "onResume() is called as the Activity comes to the foreground, making it the corresponding place to reacquire the camera in this example.", "rationales": {"A": "onPause() marks loss of foreground focus, not the return to it.", "C": "onDestroy() belongs to teardown rather than reacquiring foreground resources.", "D": "onCreateView() initializes a Fragment's view, not an Activity's foreground transition."}, "answerLetter": "B"}, {"topic": "Activity lifecycle and state", "stem": "Rotating the device causes the current Activity instance to be destroyed and a new one to be created. Which handling best preserves transient interface state across the recreation?", "options": ["Save instance state, recreate the Activity, then restore that saved state.", "Keep the same Activity instance and skip all recreation callbacks after rotation.", "Save interface state in a static field and skip explicit restoration after rotation.", "Persist dynamic values with onPause() and restore them from onResume() only."], "correct": 0, "why": "The app can save instance state, create a new Activity, and restore the saved values.", "rationales": {"B": "Contradicts the scenario in which rotation recreates the Activity instance.", "C": "A static field is not a reliable substitute for explicit state restoration after recreation.", "D": "Pausing and resuming alone do not replace saving and restoring instance state across recreation."}, "answerLetter": "A"}, {"topic": "Activity lifecycle", "stem": "A user completes a task and the current Activity should close. Which call requests that the Activity finish?", "options": ["Call onDestroy() directly to request that the current Activity closes.", "Call onPause() directly to request that the current Activity closes.", "Call onStop() directly to request that the current Activity closes.", "Call finish() to request that the current Activity closes normally."], "correct": 3, "why": "finish() requests closure of the current Activity; lifecycle callbacks are managed by Android.", "rationales": {"A": "onDestroy() is a lifecycle callback, not the method an app calls to request closure.", "B": "onPause() is a lifecycle callback for a pause transition, not a close request.", "C": "onStop() is a lifecycle callback, not a method for requesting Activity closure."}, "answerLetter": "D"}, {"topic": "Intent", "stem": "A location screen must open DisplayMessageActivity and pass the selected location as data. Which approach matches this task?", "options": ["Use a Context resource ID to pass location data to another Activity.", "Use a ViewGroup LayoutParams object to pass location data to another Activity.", "Use an Intent extra to pass location data and launch another Activity.", "Use a manifest permission to pass location data and launch another Activity."], "correct": 2, "why": "An Intent can launch another Activity and carry data in an extra, such as the location string.", "rationales": {"A": "A resource ID identifies a resource; it is not the messaging payload mechanism shown.", "B": "LayoutParams describes view sizing and placement rather than inter-component messaging.", "D": "A permission controls access; it does not carry the selected location as data."}, "answerLetter": "C"}, {"topic": "MVC", "stem": "In a quiz screen, a user taps True. The view reports the interaction, and the app must update the question state and refresh visible controls. Which flow best matches MVC?", "options": ["Have the controller update the model and refresh the interested view.", "Have the view modify the model directly and bypass the controller.", "Have the model handle the click and draw the view itself.", "Have the controller read the view and prevent model updates."], "correct": 0, "why": "In MVC, the view reports input to the controller; the controller updates the model and refreshes the relevant view.", "rationales": {"B": "Bypasses the controller, breaking the MVC interaction flow.", "C": "Confuses the model's data role with click handling and view rendering.", "D": "Reverses the controller's role by preventing the model update needed after input."}, "answerLetter": "A"}, {"topic": "Fragment design", "stem": "A weather interface must adapt to devices with different screen sizes, resolutions, densities, and orientations. Which design choice directly supports composing reusable interface portions?", "options": ["Use one fixed Activity layout and rely on resolution scaling.", "Use Fragments to compose interface portions across sizes and orientations.", "Use separate Activities for each orientation and duplicate panels across screen variants.", "Use ImageView scaleType to adapt interface panels to each orientation."], "correct": 1, "why": "Fragments allow portions of UI or behavior to be composed for varied device configurations.", "rationales": {"A": "Assumes one fixed layout plus scaling is sufficient for every configuration difference.", "C": "Duplicating Activities per orientation increases duplication rather than composing reusable UI portions.", "D": "Confuses image scaling with composing responsive interface portions."}, "answerLetter": "B"}, {"topic": "Fragment design", "stem": "A detail panel is reused inside an Activity and may be omitted on smaller screens. How should the panel be modeled?", "options": ["Treat every Fragment as a mandatory application-wide singleton for all screens.", "Treat each Fragment as a replacement for the Application framework layer.", "Treat each Fragment as a separate Activity that owns its own task and navigation.", "Treat a Fragment as an optional UI portion or behavior component."], "correct": 3, "why": "A Fragment is an optional building block representing a portion of user interface or behavior.", "rationales": {"A": "Treats a Fragment as globally mandatory rather than optional and composable.", "B": "Confuses a UI component with the higher-level application framework.", "C": "Confuses a Fragment with an Activity that owns a screen-level task and navigation."}, "answerLetter": "D"}, {"topic": "Fragment compatibility", "stem": "An app needs Fragment-based screens on a device running an Android release older than API 11. Which approach matches Fragment compatibility on older devices?", "options": ["Use native Fragment support on every device, including API 4 releases.", "Use target SDK metadata to enable native Fragment APIs on API 4 devices.", "Use the Application subclass to emulate native Fragment lifecycle callbacks.", "Use the Support Library to provide fragments on older Android releases."], "correct": 3, "why": "The Support Library provides Fragments on older Android releases, including API 4; native support begins at API 11.", "rationales": {"A": "Native Fragment support begins at API 11, so the API 4 claim is incorrect.", "B": "A target SDK declaration cannot add platform implementations that the device API lacks.", "C": "An Application subclass is not the compatibility layer for older Fragment APIs."}, "answerLetter": "D"}, {"topic": "Fragment lifecycle", "stem": "A Fragment must create its own visible hierarchy and return that View to its host. Which callback is intended for that work?", "options": ["Use onCreate() to initialize a Fragment's returned visual hierarchy.", "Use onPause() to initialize a Fragment's returned visual hierarchy.", "Use onCreateView() to create and return the Fragment's visual hierarchy.", "Use onResume() to create and return the Fragment's visual hierarchy."], "correct": 2, "why": "onCreateView() is the Fragment callback used to initialize and return its view hierarchy.", "rationales": {"A": "onCreate() is associated with Fragment initialization, not returning its view hierarchy.", "B": "onPause() is associated with leaving or pausing, not building the view.", "D": "onResume() is a foreground lifecycle stage, not the view-creation callback."}, "answerLetter": "C"}, {"topic": "Fragment coordination", "stem": "An Activity hosts a list Fragment and a detail Fragment and must coordinate their placement or replacement. Which component most directly supports fragment transactions?", "options": ["Let the Activity coordinate fragments through FragmentManager when needed.", "Let each View coordinate fragments through its own ViewGroup hierarchy.", "Let the Application subclass coordinate fragments through its global singleton.", "Let the Activity coordinate fragments through Intent extras and payloads."], "correct": 0, "why": "An Activity can coordinate Fragments and commonly uses FragmentManager or its support equivalent for transactions.", "rationales": {"B": "A ViewGroup arranges child views; it does not replace FragmentManager coordination.", "C": "Global application data is not the fragment-transaction manager.", "D": "Intent extras carry data between components; they do not manage Fragment transactions."}, "answerLetter": "A"}, {"topic": "Fragment transactions", "stem": "At runtime, an Activity must insert a new DetailFragment into a FrameLayout whose ID is container. Which implementation approach matches this operation?", "options": ["Declare the Fragment only in AndroidManifest as an application entry point.", "Attach the Fragment through a Button listener without a transaction.", "Place the Fragment in static layout XML instead of adding it at runtime.", "Add the Fragment to a layout container through a Fragment transaction."], "correct": 3, "why": "Code can create a Fragment and add it to a layout container using a Fragment transaction.", "rationales": {"A": "The manifest describes app components and metadata; it does not perform this runtime insertion.", "B": "A click listener can trigger the change, but the Fragment still needs a transaction to be added.", "C": "Static XML placement is different from inserting a new Fragment at runtime."}, "answerLetter": "D"}, {"topic": "Fragment classes", "stem": "A settings screen needs to present a focused modal confirmation prompt as a Fragment-style component. Which class is the closest fit among these choices?", "options": ["Choose ListFragment to show a short modal confirmation prompt.", "Choose PreferenceFragment to show a short modal confirmation prompt.", "Choose DialogFragment to show a short modal confirmation prompt.", "Choose Activity to show a short modal confirmation prompt."], "correct": 2, "why": "DialogFragment is the Fragment class associated with dialog-style presentation.", "rationales": {"A": "ListFragment is associated with list-oriented UI rather than dialog presentation.", "B": "PreferenceFragment is associated with preference settings rather than a modal prompt.", "D": "An Activity can host UI, but DialogFragment is the Fragment-based modal component here."}, "answerLetter": "C"}, {"topic": "Views", "stem": "Some interface elements are fixed in a layout file, while others must be created after forecast data arrives. Which implementation approach is supported?", "options": ["Use only XML layouts because Android forbids creating Views in code.", "Use XML for declared structure or create Views dynamically in code.", "Use only Java code because Android cannot inflate layouts from XML.", "Use drawable resources to define each View's dimensions and screen position."], "correct": 1, "why": "Views can be defined in XML layouts or created dynamically in code.", "rationales": {"A": "Incorrectly rules out dynamically created Views.", "C": "Incorrectly rules out XML layout resources.", "D": "Drawable resources provide visuals, not view layout dimensions or screen position."}, "answerLetter": "B"}, {"topic": "ViewGroup", "stem": "A vertical layout must contain a TextView and an ImageView and provide layout parameters for its children. Which type is designed to contain other Views?", "options": ["Use a TextView to contain child Views and store their LayoutParams.", "Use an Activity to contain child Views and store their LayoutParams.", "Use a Context to contain child Views and store their LayoutParams.", "Use a ViewGroup to contain child Views and store their LayoutParams."], "correct": 3, "why": "A ViewGroup contains child Views and uses LayoutParams to describe their layout.", "rationales": {"A": "TextView displays text; it is not the general parent container for other Views.", "B": "An Activity hosts a screen, but ViewGroup is the view-container class in this context.", "C": "Context supplies access to resources and services; it is not a parent view container."}, "answerLetter": "D"}, {"topic": "Button", "stem": "Tapping a forecast-refresh button should trigger a method that reloads displayed data. Which setup attaches that interaction to the Button?", "options": ["Attach an OnClickListener to run code when the Button is tapped.", "Attach a TextWatcher to run code when the Button is tapped.", "Attach a state-list drawable to run code when the Button is tapped.", "Attach an ImageView scaleType to run code when the Button is tapped."], "correct": 0, "why": "A Button can use setOnClickListener() to run code in response to a click.", "rationales": {"B": "A TextWatcher observes text changes rather than handling Button taps.", "C": "A state-list drawable changes visual states rather than running a click callback.", "D": "scaleType controls image scaling and does not handle Button clicks."}, "answerLetter": "A"}, {"topic": "EditText and TextView", "stem": "When a user taps Submit, the app must read text from an EditText and display it in a TextView. Which method pairing is correct?", "options": ["Read the EditText with setText() and write to TextView with getText().", "Read the EditText with getText() and write to TextView with setText().", "Read the EditText with findViewById() and write to TextView with setImageResource().", "Read the EditText with onPause() and write to TextView with onResume()."], "correct": 1, "why": "getText() retrieves text from the EditText, while setText() places text in the TextView.", "rationales": {"A": "Swaps the reading and writing methods.", "C": "findViewById() locates a View, and setImageResource() sets an image rather than text.", "D": "onPause() and onResume() are lifecycle callbacks, not text access methods."}, "answerLetter": "B"}, {"topic": "ImageView", "stem": "A weather icon must fill a rectangular ImageView while preserving its aspect ratio, even if part of the image is cropped. Which scaleType is best suited?", "options": ["Choose fitXY to preserve aspect ratio while cropping image edges.", "Choose centerInside to fill the entire view while cropping image edges.", "Choose centerCrop to fill the view while preserving ratio through cropping.", "Choose fitStart to stretch the image uniformly beyond the view bounds."], "correct": 2, "why": "centerCrop fills the ImageView while maintaining the image aspect ratio and cropping any excess.", "rationales": {"A": "fitXY fills the view by stretching dimensions and does not preserve the original aspect ratio.", "B": "centerInside fits the entire image inside the view rather than cropping it to fill.", "D": "fitStart aligns the fitted image toward the start; it does not stretch beyond the view bounds."}, "answerLetter": "C"}];
+    const LABELS = ['A', 'B', 'C', 'D'];
+    const quiz = document.getElementById('quizForm');
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+    }
+
+    function renderQuiz() {
+      quiz.innerHTML = QUESTIONS.map((q, index) => {
+        const choices = q.options.map((option, optionIndex) => `
+          <label class="choice" data-choice="${optionIndex}">
+            <input type="radio" name="q${index}" value="${optionIndex}" aria-label="Option ${LABELS[optionIndex]}">
+            <span class="letter">${LABELS[optionIndex]}</span>
+            <span class="choice-text">${escapeHtml(option)}</span>
+          </label>`).join('');
+        const rationaleRows = LABELS.filter(label => q.rationales[label]).map(label =>
+          `<li><b>${label}.</b> ${escapeHtml(q.rationales[label])}</li>`).join('');
+        return `
+          <article class="question-card" id="question-${index + 1}" data-question="${index}">
+            <div class="q-top"><span class="q-number">QUESTION ${String(index + 1).padStart(2, '0')}</span><span class="topic">${escapeHtml(q.topic)}</span></div>
+            <p class="stem" id="stem-${index}">${escapeHtml(q.stem)}</p>
+            <fieldset aria-labelledby="stem-${index}"><legend class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Question ${index + 1}</legend><div class="choices">${choices}</div></fieldset>
+            <div class="feedback" id="feedback-${index}" aria-live="polite"></div>
+            <details class="rationale"><summary>Distractor rationale</summary><ul class="rationale-list">${rationaleRows}</ul></details>
+          </article>`;
+      }).join('');
+    }
+
+    function selectedAnswers() {
+      return QUESTIONS.map((q, index) => {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        return selected ? Number(selected.value) : null;
+      });
+    }
+
+    function updateProgress() {
+      const answers = selectedAnswers();
+      const count = answers.filter(answer => answer !== null).length;
+      const percent = Math.round(count / QUESTIONS.length * 100);
+      document.getElementById('progressText').textContent = `Answered ${count} of ${QUESTIONS.length}`;
+      document.getElementById('progressPercent').textContent = `${percent}%`;
+      document.getElementById('progressFill').style.width = `${percent}%`;
+      document.getElementById('progressTrack').setAttribute('aria-valuenow', String(count));
+      document.querySelectorAll('.choice').forEach(label => label.classList.remove('selected'));
+      document.querySelectorAll('.choice input:checked').forEach(input => input.closest('.choice').classList.add('selected'));
+    }
+
+    function checkAnswers() {
+      const answers = selectedAnswers();
+      let score = 0;
+      QUESTIONS.forEach((q, index) => {
+        const card = document.querySelector(`[data-question="${index}"]`);
+        const labels = card.querySelectorAll('.choice');
+        const feedback = document.getElementById(`feedback-${index}`);
+        const selected = answers[index];
+        labels.forEach((label, optionIndex) => {
+          label.classList.remove('correct', 'incorrect');
+          if (optionIndex === q.correct) label.classList.add('correct');
+          if (selected === optionIndex && selected !== q.correct) label.classList.add('incorrect');
+        });
+        const isCorrect = selected === q.correct;
+        if (isCorrect) score++;
+        feedback.className = `feedback show ${isCorrect ? 'good' : 'bad'}`;
+        const answerLead = selected === null ? 'Not answered.' : (isCorrect ? 'Correct.' : 'Not quite.');
+        feedback.innerHTML = `<strong>${answerLead} Correct answer: ${q.answerLetter}.</strong>${escapeHtml(q.why)}`;
+      });
+      const percent = Math.round(score / QUESTIONS.length * 100);
+      document.getElementById('resultTitle').textContent = `Score: ${score} / ${QUESTIONS.length} (${percent}%)`;
+      document.getElementById('resultText').textContent = score === QUESTIONS.length ? 'All answers correct. Review the rationales to confirm the underlying distinctions.' : `You answered ${score} correctly. Correct options are highlighted; open each distractor rationale to review the traps.`;
+      document.getElementById('result').classList.add('show');
+      document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function resetQuiz() {
+      document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
+      document.querySelectorAll('.choice').forEach(label => label.classList.remove('selected', 'correct', 'incorrect'));
+      document.querySelectorAll('.feedback').forEach(feedback => { feedback.className = 'feedback'; feedback.innerHTML = ''; });
+      document.getElementById('result').classList.remove('show');
+      document.getElementById('answerKey').hidden = true;
+      document.getElementById('keyBtn').textContent = 'Show answer key';
+      document.getElementById('keyBtn').setAttribute('aria-expanded', 'false');
+      document.querySelectorAll('details.rationale').forEach(detail => detail.open = false);
+      updateProgress();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    renderQuiz();
+    document.getElementById('keyList').textContent = QUESTIONS.map((q, i) => `${i + 1}. ${q.answerLetter}`).join('   ·   ');
+    document.getElementById('checkBtn').addEventListener('click', checkAnswers);
+    document.getElementById('resetBtn').addEventListener('click', resetQuiz);
+    document.getElementById('keyBtn').addEventListener('click', () => {
+      const panel = document.getElementById('answerKey');
+      panel.hidden = !panel.hidden;
+      const shown = !panel.hidden;
+      document.getElementById('keyBtn').textContent = shown ? 'Hide answer key' : 'Show answer key';
+      document.getElementById('keyBtn').setAttribute('aria-expanded', String(shown));
+    });
+    quiz.addEventListener('change', event => {
+      if (event.target.matches('input[type="radio"]')) updateProgress();
+    });
+    updateProgress();
+  </script>
+</body>
+</html>

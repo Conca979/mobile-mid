@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Android Fundamentals — 50 MCQs</title>
+<style>
+:root { color-scheme: light; --ink:#182230; --muted:#64748b; --line:#dbe3ed; --bg:#f4f7fb; --blue:#2459c4; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif; }
+main { max-width:850px; margin:0 auto; padding:24px 16px 48px; }
+header, .question, .results { background:white; border:1px solid var(--line); border-radius:16px; padding:22px; box-shadow:0 4px 16px #13294b0a; }
+h1 { margin:0 0 6px; font-size:clamp(1.5rem,4vw,2rem); }
+.subtitle { color:var(--muted); margin:0; }
+.toprow { display:flex; align-items:center; justify-content:space-between; gap:12px; margin:18px 0 10px; }
+.progress { height:8px; background:#e7edf5; border-radius:99px; overflow:hidden; margin-bottom:20px; }
+#bar { height:100%; width:0%; background:var(--blue); transition:width .2s; }
+.question { margin:14px 0; }
+.qmeta { color:var(--muted); font-size:.88rem; font-weight:650; margin-bottom:8px; }
+.qtext { font-weight:700; font-size:1.08rem; margin:0 0 14px; }
+.options { display:grid; gap:9px; }
+.option { text-align:left; border:1px solid var(--line); border-radius:10px; padding:12px 14px; background:white; color:var(--ink); font:inherit; cursor:pointer; }
+.option:hover:not(:disabled) { border-color:var(--blue); background:#f6f9ff; }
+.option:focus-visible, .btn:focus-visible { outline:3px solid #91b4ff; outline-offset:2px; }
+.option:disabled { cursor:default; }
+.option.correct { border-color:#16804a; background:#effaf3; }
+.option.wrong { border-color:#c43d42; background:#fff2f2; }
+.feedback { margin-top:12px; padding:12px 14px; border-radius:10px; background:#f3f6fa; display:none; }
+.feedback.show { display:block; }
+.feedback strong { display:block; margin-bottom:4px; }
+.feedback .slide { color:#344a68; font-weight:650; margin-top:6px; }
+.controls { display:flex; justify-content:space-between; gap:10px; margin-top:18px; }
+.btn { border:0; border-radius:10px; padding:11px 17px; font:inherit; font-weight:700; cursor:pointer; }
+.primary { background:var(--blue); color:white; }
+.secondary { background:#e8edf5; color:#243247; }
+.btn:disabled { opacity:.45; cursor:not-allowed; }
+#roundDone { color:var(--muted); align-self:center; font-size:.9rem; }
+.results { display:none; margin-top:18px; }
+.results.show { display:block; }
+.small { font-size:.92rem; color:var(--muted); }
+@media(max-width:520px){ main{padding:12px 10px 30px} header,.question,.results{padding:16px} .controls{flex-wrap:wrap} #roundDone{order:3;width:100%;text-align:center} }
+</style>
+</head>
+<body>
+<main>
+<header>
+<h1>Android Fundamentals — 50 MCQs</h1>
+<p class="subtitle">10 rounds · 5 questions per round · Select an answer to see feedback and the source slide.</p>
+</header>
+<div class="toprow"><strong id="roundLabel">Round 1 of 10</strong><span id="scoreLabel">Score: 0 / 0</span></div>
+<div class="progress" aria-label="Quiz progress"><div id="bar"></div></div>
+<div id="quiz"></div>
+<div class="controls">
+<button class="btn secondary" id="prev" disabled>← Previous round</button>
+<span id="roundDone">Answer all 5 questions to continue.</span>
+<button class="btn primary" id="next" disabled>Next round →</button>
+</div>
+<section class="results" id="results">
+<h2>Quiz complete!</h2>
+<p id="finalScore"></p>
+<p class="small">Review the explanations above by returning to previous rounds.</p>
+<button class="btn primary" id="restart">Restart quiz</button>
+</section>
+</main>
+<script>
+const questions = [{"q": "Which layers are listed in the Android architecture overview?", "opts": ["Applications, Application Framework, Libraries, Linux Kernel", "Activities, Fragments, Views, Intents", "Java, XML, Gradle, Android Studio", "Dalvik, ART, APK, AAB"], "a": 0, "why": "The overview names four layers: Applications, Application Framework, Libraries, and Linux Kernel.", "slide": 4}, {"q": "According to the slides, Android's Linux Kernel is described as:", "opts": ["High-level and written mainly in Java", "Well shaped, secured, and under active development", "Responsible only for user-interface layouts", "The place where app icons are stored"], "a": 1, "why": "The Linux Kernel slide lists “Well shaped,” “Secured,” and “Active development.”", "slide": 5}, {"q": "What is stated about Android Libraries?", "opts": ["They are mostly written in Java and provide high-level UI services", "They are mostly in C/C++ and provide low-level functionality", "They are only used to declare permissions", "They represent one screen of an application"], "a": 1, "why": "The Libraries slide says they are mostly in C/C++, low level, and can render text, play media, and support local databases.", "slide": 6}, {"q": "Which is an example of a service associated with the Application Framework?", "opts": ["Location Service", "Garbage Collector source code", "A Linux shell command", "A drawable filename"], "a": 0, "why": "The Application Framework slide lists User Interface, Location Service, and Notification.", "slide": 7}, {"q": "Where does the lecture say developers will make their apps?", "opts": ["Linux Kernel", "Libraries", "Applications layer", "Android Virtual Machine only"], "a": 2, "why": "The Applications slide says “Our focus” and “Where you will make your app.”", "slide": 8}, {"q": "Which sequence of topics appears on the “From Source to Device” slide?", "opts": ["Java, Dex, Virtual Machine", "XML, CSS, HTML", "Activity, Fragment, ViewGroup", "Kernel, permissions, manifest"], "a": 0, "why": "The slide explicitly lists Java, Dex, and Virtual Machine.", "slide": 10}, {"q": "Which virtual machines are named in the Android Fundamentals slides?", "opts": ["JVM and CLR", "Dalvik and ART", "Docker and Kubernetes", "VirtualBox and QEMU"], "a": 1, "why": "The Android Virtual Machines slide names Dalvik and ART, expanded as Android RunTime.", "slide": 11}, {"q": "What does ART stand for in the slide?", "opts": ["Android Resource Tool", "Application Runtime Transfer", "Android RunTime", "Advanced Rendering Technology"], "a": 2, "why": "The slide labels ART as “Android RunTime.”", "slide": 11}, {"q": "Which three properties of the virtual-machine setup are listed on “From Source to Device”?", "opts": ["Shared process, shared user, no isolation", "Separated process, separated user, isolation", "Single process, root user, full sharing", "No process, no user, no runtime"], "a": 1, "why": "The slide lists Separated Process, Separated User, and Isolation under Virtual Machine.", "slide": 10}, {"q": "Which item is explicitly presented as a question/topic on the “From Source to Device” slide?", "opts": ["Why Java?", "Why Swift?", "Why CSS?", "Why SQL? "], "a": 0, "why": "“Why Java?” appears as a bullet on the slide.", "slide": 10}, {"q": "How does the lecture characterize Context?", "opts": ["A central command center", "A drawable image file", "A screen orientation", "A database table"], "a": 0, "why": "The Context slide calls it a “Central command center.”", "slide": 19}, {"q": "Which resource can Context access according to the slide?", "opts": ["Application-specific settings", "Only remote web pages", "Only camera hardware", "Only another app’s private files"], "a": 0, "why": "The slide says Context accesses application-specific data such as settings, private files, resources, and assets, plus system services.", "slide": 19}, {"q": "Which statement about Application is on the slide?", "opts": ["It is a Context", "It must be a ViewGroup", "It replaces AndroidManifest.xml", "It handles only button clicks"], "a": 0, "why": "The Application slide explicitly states “A context.”", "slide": 20}, {"q": "What are two reasons given for subclassing Application?", "opts": ["Global data and early initialization of libraries", "Drawing images and changing margins", "Creating every Fragment and every View", "Compiling Java into XML"], "a": 0, "why": "The slide lists Global data and Early initialization of libraries as reasons to subclass Application.", "slide": 20}, {"q": "Which file contains metadata about the app, target SDK, entry point, permissions, activities, services, and receivers?", "opts": ["main_activity.xml", "AndroidManifest.xml", "settings.gradle", "README.md"], "a": 1, "why": "The AndroidManifest.xml slide lists these kinds of app metadata and declarations.", "slide": 24}, {"q": "Which permission declaration is shown as an example in the slides?", "opts": ["android.permission.CAMERA", "android.permission.SEND_SMS", "android.permission.ACCESS_WIFI_STATE", "android.permission.READ_CONTACTS"], "a": 1, "why": "The slide gives `<uses-permission android:name=\"android.permission.SEND_SMS\"/>` as its example.", "slide": 24}, {"q": "What is an Activity described as in the lecture?", "opts": ["An optional icon resource", "A fundamental building block with a unique task or purpose", "A low-level C++ library", "A permission declaration"], "a": 1, "why": "The Activity slide calls it important, a fundamental building block, and says it has a unique task or purpose.", "slide": 28}, {"q": "According to the slides, an Android application has at least:", "opts": ["One Activity", "Four Fragments", "Two ViewGroups", "One DialogFragment"], "a": 0, "why": "The Activity slide says there is at least one Activity per application.", "slide": 28}, {"q": "What does an Activity handle displaying, according to the slide?", "opts": ["A single screen", "The entire Linux kernel", "Only a notification sound", "All installed applications"], "a": 0, "why": "The slide says an Activity “handles” display of a single screen.", "slide": 28}, {"q": "Which method is associated with Activity initialization and loading the view layout?", "opts": ["onPause()", "onCreate()", "onDestroy()", "onSaveInstanceState()"], "a": 1, "why": "The Activity Lifecycle slide says onCreate() is for initialization, including loading the view layout and initializing view components.", "slide": 30}, {"q": "Which method is shown setting the Activity's user-interface layout?", "opts": ["setContentView()", "setImageResource()", "setOnClickListener()", "getText()"], "a": 0, "why": "The onCreate() example calls `setContentView(R.layout.main_activity)` to set the layout.", "slide": 30}, {"q": "What is one recommended task in onPause()?", "opts": ["Acquire the camera for foreground use", "Stop animations or heavy tasks", "Create a new Android project", "Declare the target SDK"], "a": 1, "why": "The onPause() slide recommends stopping animation or heavy tasks, saving unsaved changes, and releasing resources such as the camera.", "slide": 31}, {"q": "When is onResume() called, according to the lecture?", "opts": ["When the Activity comes to the foreground", "Only when the app is uninstalled", "When AndroidManifest.xml is edited", "When a Fragment is declared in XML"], "a": 0, "why": "The onResume() slide says it is called when the Activity comes to the foreground.", "slide": 32}, {"q": "In the onResume() example, what resource may be initialized when needed?", "opts": ["A camera", "A local database schema", "An Android permission manifest", "A weather icon download"], "a": 0, "why": "The example checks whether `mCamera` is null and calls `initializeCamera()` if necessary.", "slide": 32}, {"q": "Which method is listed in the screen-orientation sequence for saving instance state?", "opts": ["onSaveInstanceState()", "onClick()", "getText()", "setOrientation()"], "a": 0, "why": "The slide lists onSaveInstanceState(), onDestroy(), creating a new Activity instance, onCreate(), and onRestoreInstanceState().", "slide": 33}, {"q": "Which method does the slide say to call to close the current Activity?", "opts": ["finish()", "closeActivityNow()", "stopApp()", "delete()"], "a": 0, "why": "The slide says “Close current activity: call finish().”", "slide": 34}, {"q": "How is an Intent described in the lecture?", "opts": ["An asynchronous messaging mechanism", "A visual layout container", "A Linux kernel module", "A text-editing widget"], "a": 0, "why": "The Intent slide describes it as an asynchronous messaging mechanism.", "slide": 35}, {"q": "What can an Intent be used to pass to another Activity or service?", "opts": ["A message containing data", "Only a background color", "Only a layout margin", "Only the app's target SDK"], "a": 0, "why": "The slide says an Intent is a message to pass to other activities/services and contains data.", "slide": 35}, {"q": "Which method is used in the example to launch the target Activity?", "opts": ["startActivity(intent)", "setContentView(intent)", "finish(intent)", "findViewById(intent)"], "a": 0, "why": "The example creates an Intent, adds an extra, and calls `startActivity(intent)`.", "slide": 35}, {"q": "Which method is used in the Intent example to attach a value named “location”?", "opts": ["putExtra()", "setText()", "setImageResource()", "setOnClickListener()"], "a": 0, "why": "The example calls `intent.putExtra(\"location\", locationEditText.getText())`.", "slide": 35}, {"q": "Why does the lecture introduce Fragments?", "opts": ["Devices differ in screen size, resolution, density, and orientation", "Java cannot display text", "Android apps cannot contain Activities", "The Linux Kernel requires XML layouts"], "a": 0, "why": "The “Why fragment?” slide lists device variety and differences in screen size, resolution, density, and orientation.", "slide": 43}, {"q": "A Fragment represents:", "opts": ["A behavior or a portion of user interface", "The whole Android operating system", "Only a permission declaration", "The Java-to-Dex compiler"], "a": 0, "why": "The Fragment slide describes it as representing a behavior or a portion of the user interface.", "slide": 44}, {"q": "According to the lecture, a Fragment is:", "opts": ["Mandatory in every app", "Optional", "The same thing as AndroidManifest.xml", "A Linux Kernel service"], "a": 1, "why": "The slide explicitly states that a Fragment is optional.", "slide": 44}, {"q": "From which Android API level does the slide say Fragments are officially supported?", "opts": ["API 4 (Donut) natively", "API 11 (Honeycomb)", "API 21 (Lollipop)", "API 30 (Android 11)"], "a": 1, "why": "The slide says officially supported from Honeycomb [API 11]. The next slide notes Support Library use as low as Donut [API 4].", "slide": 44}, {"q": "Which option is named as a popular Fragment class?", "opts": ["DialogFragment", "TextView", "LinearLayout", "EditText"], "a": 0, "why": "The “Popular Fragment Classes” slides list DialogFragment, ListFragment, and PreferenceFragment.", "slide": 47}, {"q": "Which method is associated with view initialization in a Fragment?", "opts": ["onCreateView()", "onResumeActivity()", "setContentView() only", "putExtra()"], "a": 0, "why": "The Fragment lifecycle slide lists onCreate() for initialization, onCreateView() for view initialization, and onPause() when the user leaves.", "slide": 46}, {"q": "What does an Activity with Fragments do, according to the slide?", "opts": ["Coordinates Fragments", "Compiles all Java code into Dex manually", "Replaces the Linux Kernel", "Declares every app permission automatically"], "a": 0, "why": "The slide says an Activity with fragments is simplified and coordinates fragments.", "slide": 50}, {"q": "Which manager may an Activity with Fragments use?", "opts": ["FragmentManager or SupportFragmentManager", "CameraManager only", "PackageInstaller only", "GarbageCollectorManager"], "a": 0, "why": "The slide says an Activity optionally, but mostly, uses FragmentManager or SupportFragmentManager.", "slide": 50}, {"q": "How can a Fragment be added to an Activity according to the lecture?", "opts": ["Only by editing AndroidManifest.xml", "By placing it in layout XML or creating it dynamically in code", "Only by using an Intent extra", "Only by making it a subclass of TextView"], "a": 1, "why": "The slide says Fragments can be put inside a layout XML or dynamically created using code.", "slide": 51}, {"q": "Which method chain is shown for dynamically adding a Fragment to a container?", "opts": ["beginTransaction().add(...).commit()", "setText().getText().finish()", "onPause().onResume().onDestroy()", "setImageResource().putExtra()"], "a": 0, "why": "The example uses `getFragmentManager().beginTransaction().add(R.id.container, firstFragment).commit()`.", "slide": 51}, {"q": "What is a View described as in the lecture?", "opts": ["What the user interacts with and a basic UI building block", "A system service for location", "A component that must have its own process", "A class used only for app permissions"], "a": 0, "why": "The View slide says it is what the user interacts with and the basic building blocks of the user interface.", "slide": 56}, {"q": "Which package names are associated with Views on the slide?", "opts": ["android.view.* and android.widget", "java.net.* and java.sql", "org.acra.* only", "android.permission.* only"], "a": 0, "why": "The slide explicitly lists `android.view.*` and `android.widget`.", "slide": 56}, {"q": "How can Views be created, according to the lecture?", "opts": ["Only with Java code", "Only in XML", "In XML or dynamically using code", "Only by the operating system"], "a": 2, "why": "The View slide says XML or dynamic code.", "slide": 56}, {"q": "Which of these is listed as a popular View class?", "opts": ["TextView", "AndroidManifest", "Dalvik", "Application Framework"], "a": 0, "why": "The popular Views diagram includes TextView, ImageView, and ViewGroup among others.", "slide": 57}, {"q": "What is the role of a ViewGroup?", "opts": ["It contains child Views", "It sends SMS permissions", "It represents the Android runtime", "It stores the app's target SDK"], "a": 0, "why": "The ViewGroup slide says it contains children (other Views).", "slide": 62}, {"q": "Which View attribute is used with findViewById() on the slide?", "opts": ["id", "alpha", "rotation", "margin"], "a": 0, "why": "The Attributes slide pairs `id` with `findViewById()`.", "slide": 58}, {"q": "Which pair is explicitly listed as View attributes?", "opts": ["Padding and margin", "Dalvik and ART", "Activity and Application", "Dex and Java"], "a": 0, "why": "The Attributes slide lists padding and margin, along with id, width, height, visibility, alpha, rotation, background, and click.", "slide": 58}, {"q": "Which method is associated with setting TextView text?", "opts": ["setText()", "getText() only", "setImageResource()", "beginTransaction()"], "a": 0, "why": "The TextView slide lists `text: setText()`.", "slide": 60}, {"q": "Which method is associated with setting an ImageView's image resource?", "opts": ["setImageResource()", "setContentView()", "putExtra()", "onSaveInstanceState()"], "a": 0, "why": "The ImageView slide lists `src: setImageResource()` and several scaleType options.", "slide": 61}, {"q": "Which method is shown for responding to a Button press?", "opts": ["setOnClickListener() with onClick()", "getFragmentManager() with onCreateView()", "setImageResource() with onPause()", "putExtra() with onDestroy()"], "a": 0, "why": "The Button slide shows `setOnClickListener()` and an `onClick(View v)` callback to respond to a button click.", "slide": 63}];
+const letters = ["A","B","C","D"];
+let round = 0;
+let answers = Array(questions.length).fill(null);
+function score() {
+  let attempted = answers.filter(x => x !== null).length;
+  let correct = answers.reduce((n, a, i) => n + (a === questions[i].a ? 1 : 0), 0);
+  return {attempted, correct};
+}
+function render() {
+  const start = round * 5, end = start + 5;
+  document.getElementById("roundLabel").textContent = `Round ${round+1} of 10`;
+  const s = score();
+  document.getElementById("scoreLabel").textContent = `Score: ${s.correct} / ${s.attempted}`;
+  document.getElementById("bar").style.width = `${s.attempted / 50 * 100}%`;
+  const quiz = document.getElementById("quiz");
+  quiz.innerHTML = "";
+  for (let i=start; i<end; i++) {
+    const q = questions[i], chosen = answers[i];
+    const card = document.createElement("section");
+    card.className = "question";
+    const meta = document.createElement("div"); meta.className="qmeta"; meta.textContent=`QUESTION ${i+1} · ANDROID FUNDAMENTALS`;
+    const title = document.createElement("p"); title.className="qtext"; title.textContent=q.q;
+    const opts = document.createElement("div"); opts.className="options";
+    q.opts.forEach((opt,j)=>{
+      const b=document.createElement("button"); b.className="option"; b.type="button";
+      b.textContent=`${letters[j]}. ${opt}`;
+      b.setAttribute("aria-pressed", chosen===j ? "true":"false");
+      if (chosen !== null) {
+        b.disabled=true;
+        if(j===q.a) b.classList.add("correct");
+        else if(j===chosen) b.classList.add("wrong");
+      } else {
+        b.addEventListener("click",()=>{answers[i]=j;render();});
+      }
+      opts.appendChild(b);
+    });
+    card.append(meta,title,opts);
+    if(chosen !== null) {
+      const f=document.createElement("div"); f.className="feedback show";
+      const verdict=document.createElement("strong");
+      verdict.textContent = chosen===q.a ? "Correct!" : `Not quite. Correct answer: ${letters[q.a]}. ${q.opts[q.a]}`;
+      const explanation=document.createElement("div"); explanation.textContent=q.why;
+      const slide=document.createElement("div"); slide.className="slide"; slide.textContent=`Source: Android Fundamentals, slide ${q.slide} of 65.`;
+      f.append(verdict,explanation,slide); card.appendChild(f);
+    }
+    quiz.appendChild(card);
+  }
+  const done = answers.slice(start,end).every(a=>a!==null);
+  document.getElementById("prev").disabled=round===0;
+  document.getElementById("next").disabled=!done;
+  document.getElementById("next").textContent=round===9 ? "View results →" : "Next round →";
+  document.getElementById("roundDone").textContent=done ? "Round complete — ready to continue." : `Answered ${answers.slice(start,end).filter(a=>a!==null).length} of 5 questions.`;
+  document.getElementById("results").classList.remove("show");
+}
+document.getElementById("prev").addEventListener("click",()=>{if(round>0){round--;render();window.scrollTo({top:0,behavior:"smooth"});}});
+document.getElementById("next").addEventListener("click",()=>{
+  if(round<9){round++;render();window.scrollTo({top:0,behavior:"smooth"});}
+  else {
+    const s=score();
+    document.getElementById("finalScore").textContent=`Your score: ${s.correct} / 50 (${Math.round(s.correct/50*100)}%).`;
+    document.getElementById("results").classList.add("show");
+    document.getElementById("results").scrollIntoView({behavior:"smooth"});
+  }
+});
+document.getElementById("restart").addEventListener("click",()=>{round=0;answers=Array(questions.length).fill(null);render();window.scrollTo({top:0,behavior:"smooth"});});
+render();
+</script>
+</body>
+</html>

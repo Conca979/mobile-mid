@@ -5,10 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Android Platform Architecture & Engineering — Psychometric University Exam Suite (150 MCQs)</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    };
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    html, body {
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100vw;
+      margin: 0;
+      padding: 0;
+    }
     :root {
       --bg-page: #f8fafc;
       --bg-card: #ffffff;
@@ -19,7 +34,7 @@
       --accent: #0f172a;
       --accent-soft: #f1f5f9;
     }
-    .dark-mode {
+    .dark, .dark-mode {
       --bg-page: #0b0f19;
       --bg-card: #111827;
       --bg-subtle: #1e293b;
@@ -33,55 +48,74 @@
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background-color: var(--bg-page);
       color: var(--text-main);
-      margin: 0;
-      padding: 0;
       -webkit-font-smoothing: antialiased;
+      word-break: break-word;
+      overflow-wrap: anywhere;
     }
     code, pre, .mono {
       font-family: 'JetBrains Mono', monospace;
+      word-break: break-word;
+      overflow-wrap: anywhere;
     }
     .code-inline {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.86em;
+      font-size: 0.84em;
       padding: 0.12rem 0.35rem;
       border-radius: 0.25rem;
       background-color: rgba(100, 116, 139, 0.14);
       font-weight: 500;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+    .dark .code-inline, .dark-mode .code-inline {
+      background-color: rgba(255, 255, 255, 0.12);
+      color: #38bdf8;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
     .q-card {
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: 0.75rem;
       transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      word-break: break-word;
+      overflow-wrap: anywhere;
     }
     .q-card:hover {
       border-color: #cbd5e1;
     }
-    .dark-mode .q-card:hover {
+    .dark .q-card:hover, .dark-mode .q-card:hover {
       border-color: #334155;
     }
     .opt-btn {
       border: 1px solid var(--border-color);
       background-color: var(--bg-card);
       transition: all 0.12s ease;
+      word-break: break-word;
+      overflow-wrap: anywhere;
     }
     .opt-btn:hover {
       background-color: var(--bg-subtle);
     }
     .opt-correct-reveal {
       border-color: #10b981 !important;
-      background-color: rgba(16, 185, 129, 0.08) !important;
+      background-color: rgba(16, 185, 129, 0.1) !important;
     }
     .opt-wrong-selected {
       border-color: #ef4444 !important;
-      background-color: rgba(239, 68, 68, 0.08) !important;
+      background-color: rgba(239, 68, 68, 0.1) !important;
     }
     .tab-active {
       background-color: #0f172a;
       color: #ffffff;
       border-color: #0f172a;
     }
-    .dark-mode .tab-active {
+    .dark .tab-active, .dark-mode .tab-active {
       background-color: #38bdf8;
       color: #0f172a;
       border-color: #38bdf8;
